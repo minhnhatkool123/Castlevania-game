@@ -1,0 +1,3 @@
+﻿  Simon.cpp
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\demodirectx\gameobject.h(65): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  DemoDirectX.vcxproj -> D:\vidudirectx\myframework\testdung\vidu4\2 - setup directX\DirectXGame\Debug\DemoDirectX.exe
