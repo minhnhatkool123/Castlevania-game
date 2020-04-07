@@ -1,5 +1,8 @@
 #pragma once
 #include"GameObject.h"
+#define ground_ani 0
+#define ground_ani_set 2
+
 class Ground :public CGameObject
 {
 public:

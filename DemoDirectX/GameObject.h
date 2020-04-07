@@ -21,7 +21,16 @@ struct CCollisionEvent
 {
 	LPGAMEOBJECT obj;
 	float t, nx, ny;
-	CCollisionEvent(float t, float nx, float ny, LPGAMEOBJECT obj = NULL) { this->t = t; this->nx = nx; this->ny = ny; this->obj = obj; }
+	float dx, dy;
+	CCollisionEvent(float t, float nx, float ny, float dx = 0, float dy = 0,LPGAMEOBJECT obj = NULL) 
+	{ 
+		this->t = t; 
+		this->nx = nx; 
+		this->ny = ny; 
+		this->dx = dx;
+		this->dy = dy;
+		this->obj = obj; 
+	}
 
 	static bool compare(const LPCOLLISIONEVENT &a, LPCOLLISIONEVENT &b)
 	{
@@ -48,27 +57,42 @@ public:
 
 	int state;
 
+	int idItems;
+	bool isDone;
+	bool isVisible;
+
 	DWORD dt;
 
-	vector<LPANIMATION> animations;
+	//vector<LPANIMATION> animations;
+	LPANIMATION_SET animation_set;
+
 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
+	float GetPositionX() { return this->x; }
+	float GetPositionY() { return this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	void SetNx(int nx)
 	{
 		this->nx = nx;
 	}
+	int Getnx()
+	{
+		return nx;
+	}
 	void SetVx(int vx)
 	{
 		this->vx = vx;
 	}
-
+	
 
 	int GetState() { return this->state; }
 
 	void RenderBoundingBox();
+	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }
+
+	bool AABBCheck(float l_a, float t_a, float r_a, float b_a, float l_b, float t_b, float r_b, float b_b);
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
@@ -80,7 +104,7 @@ public:
 		float &nx,
 		float &ny);
 
-	void AddAnimation(int aniId);
+	//void AddAnimation(int aniId);
 
 	CGameObject();
 

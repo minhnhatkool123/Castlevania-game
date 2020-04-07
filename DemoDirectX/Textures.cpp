@@ -3,9 +3,9 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-#include "debug.h"
+#include "Utils.h"
 #include "Game.h"
-#include "textures.h"
+#include "Textures.h"
 
 CTextures * CTextures::__instance = NULL;
 
@@ -64,6 +64,18 @@ LPDIRECT3DTEXTURE9 CTextures::Get(unsigned int i)
 {
 	return textures[i];
 }
-
+/*
+	Clear all loaded textures
+*/
+void CTextures::Clear()
+{
+	for (auto x : textures)
+	{
+		LPDIRECT3DTEXTURE9 tex = x.second; 
+		if (tex!=NULL) tex->Release();
+	}
+	
+	textures.clear();
+}
 
 

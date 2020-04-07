@@ -1,3 +1,15 @@
-﻿  Simon.cpp
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\demodirectx\gameobject.h(65): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  DemoDirectX.vcxproj -> D:\vidudirectx\myframework\testdung\vidu4\2 - setup directX\DirectXGame\Debug\DemoDirectX.exe
+﻿  PlayScence.cpp
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\gameobject.h(86): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(102): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(124): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(147): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(148): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(184): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(263): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(286): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(290): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(330): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(333): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(336): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(348): warning C4018: '<': signed/unsigned mismatch
+  DemoDirectX.vcxproj -> D:\vidudirectx\myframework\testdung\vidu4\2 - setup directX\DirectXGame\DirectXGame\Debug\DemoDirectX.exe

@@ -5,6 +5,9 @@
 Simon::Simon() 
 {
 	whip = new Whip();
+	knife = new Knife();
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(simon_ani_set));
+	currentWeapon = -1;
 	isGrounded = false;
 	//state = simon_ani_idle;
 }
@@ -14,8 +17,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 	vy += simon_gravity * dt;
 
-	//whip->Update(dt, coObjects);
-	whip->SetPosWhip(D3DXVECTOR3(this->x, this->y, 0), true);
+
+	if(state==simon_ani_sit_hit)
+		whip->SetPosWhip(D3DXVECTOR3(this->x, this->y, 0), false);
+	else
+		whip->SetPosWhip(D3DXVECTOR3(this->x, this->y, 0), true);
 	/*if (state == simon_ani_stand_hit && animations[simon_ani_stand_hit]->RenderOver(300))
 	{
 		if (!(isGrounded))
@@ -24,11 +30,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SetState(simon_ani_idle);
 	}*/
 
-
+	
+	
+	
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
 	coEvents.clear();
 
 	
@@ -63,12 +70,15 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				if (e->ny < 0)
 				{
+				
 					isGrounded = true;
 				}
 				
 			}
+
 		}
 	}
+	
 
 	for (UINT i = 0; i < coEvents.size(); i++) 
 		delete coEvents[i];
@@ -76,12 +86,36 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void Simon::Render()
 {
-	animations[state]->Render(nx, x, y);
-	if ((state == simon_ani_stand_hit || state == simon_ani_sit_hit))
-		whip->Render(animations[state]->GetcurrentFrame());
+	animation_set->at(state)->Render(nx, x, y);
+
+	if (nx > 0)
+	{
+		whip->SetNx(1);
+		knife->SetNx(1);
+	}
+	else
+	{
+		whip->SetNx(-1);
+		knife->SetNx(-1);
+	}
+
+	if ((state == simon_ani_stand_hit || state == simon_ani_sit_hit)&&!isHitSubWeapon||(isHitSubWeapon&&currentWeapon==-1))	
+	{		
+		whip->Render(animation_set->at(state)->GetcurrentFrame());		
+	}
 	else
 		whip->Render(-1);
-	RenderBoundingBox();
+	
+
+	//if (isHitSubWeapon&&currentWeapon != -1)
+	if(currentWeapon!=-1)
+	{
+		knife->Render();
+	}
+		
+	
+	
+	//RenderBoundingBox();
 }
 
 
@@ -107,16 +141,20 @@ void Simon::SetState(int State)
 		}
 		break;
 	case simon_ani_sit:
-		vx = vy = 0;
+		vx = 0;
 		break;
 	case simon_ani_stand_hit:
-		animations[State]->ResetcurrentFrame();
-		animations[State]->StartAni();
+		animation_set->at(State)->ResetcurrentFrame();
+		animation_set->at(State)->StartAni();
 		break;
 	case simon_ani_sit_hit:
 		vx = 0;
-		animations[State]->ResetcurrentFrame();
-		animations[State]->StartAni();
+		animation_set->at(State)->ResetcurrentFrame();
+		animation_set->at(State)->StartAni();
+		break;
+	case simon_ani_led:
+		vx = 0;
+		animation_set->at(State)->StartAni();
 		break;
 	}
 
@@ -124,12 +162,54 @@ void Simon::SetState(int State)
 
 void Simon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-	left = x;
+	left = x+15;
 	top = y;
-	right = left + 60;
+	right = left + 33;
 	bottom = top + 62;
+}
+
+void Simon::SimonColliWithItems(vector<LPGAMEOBJECT> *listitems)//hàm này để tránh việc ko xét va chạm dc khi 2 simon trùng với items
+{
+	float l_items, t_items, r_items, b_items, l_simon, t_simon, r_simon, b_simon;
+	GetBoundingBox(l_simon, t_simon, r_simon, b_simon);
+
+	for (UINT i = 0; i < listitems->size(); i++)
+	{
+		LPGAMEOBJECT e = listitems->at(i);
+		e->GetBoundingBox(l_items, t_items, r_items, b_items);
+		if (CGameObject::AABBCheck(l_simon, t_simon, r_simon, b_simon, l_items, t_items, r_items, b_items))
+		{
+			if (e->GetState() == items_for_whip)
+			{
+				SetState(simon_ani_led);
+				e->isDone = true;
+				if (whip->GetState() == whip_lv1)
+					whip->SetState(whip_lv2);
+				else if (whip->GetState() == whip_lv2)
+					whip->SetState(whip_lv3);
+				
+
+			}
+			else if (e->GetState() == items_big_heart)
+			{
+				e->isDone = true;
+			}
+			else if (e->GetState() == items_knife)
+			{
+				e->isDone = true;
+				currentWeapon = 0;
+				//e->SetState(knife_ani);
+				
+			}
+		}
+		
+
+
+
+	}
 }
 
 Simon::~Simon()
 {
+
 }

@@ -1,5 +1,8 @@
 #pragma once
 #include"Sprites.h"
+#include <Windows.h>
+#include <d3dx9.h>
+#include <unordered_map>
 
 class CAnimationFrame
 {
@@ -23,7 +26,7 @@ class CAnimation
 	int currentFrame;
 	vector<LPANIMATION_FRAME> frames;
 public:
-	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
+	CAnimation(int defaultTime=100) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 	void Add(int spriteId, DWORD time = 0);
 	void Render(int nx,float x, float y, int alpha = 255);
 	void RenderWhip(int currentID, int nx, float x, float y, int alpha = 255); 
@@ -67,7 +70,30 @@ class CAnimations
 public:
 	void Add(int id, LPANIMATION ani);
 	LPANIMATION Get(int id);
+	void Clear();
 
 	static CAnimations * GetInstance();
 };
 
+
+typedef vector<LPANIMATION> CAnimationSet;
+
+typedef CAnimationSet* LPANIMATION_SET;
+
+/*
+	Manage animation set database
+*/
+class CAnimationSets
+{
+	static CAnimationSets * __instance;
+
+	unordered_map<int, LPANIMATION_SET> animation_sets;
+
+public:
+	CAnimationSets();
+	void Add(int id, LPANIMATION_SET ani);
+	LPANIMATION_SET Get(unsigned int id);
+
+
+	static CAnimationSets * GetInstance();
+};

@@ -1,5 +1,7 @@
 #include "Animation.h"
+#include "Utils.h"
 
+CAnimationSets * CAnimationSets::__instance = NULL;
 
 void CAnimation::Add(int spriteId, DWORD time)
 {
@@ -36,6 +38,7 @@ void CAnimation::Render(int nx, float x, float y, int alpha)
 
 void CAnimation::RenderWhip(int currentID, int nx, float x, float y, int alpha)
 {
+	//currentFrame = currentID;
 	frames[currentID]->GetSprite()->Draw(nx, x, y, alpha);
 }
 
@@ -57,4 +60,40 @@ void CAnimations::Add(int id, LPANIMATION ani)
 LPANIMATION CAnimations::Get(int id)
 {
 	return animations[id];
+}
+
+
+void CAnimations::Clear()
+{
+	for (auto x : animations)
+	{
+		LPANIMATION ani = x.second;
+		delete ani;
+	}
+
+	animations.clear();
+}
+
+CAnimationSets::CAnimationSets()
+{
+}
+
+CAnimationSets *CAnimationSets::GetInstance()
+{
+	if (__instance == NULL) __instance = new CAnimationSets();
+	return __instance;
+}
+
+LPANIMATION_SET CAnimationSets::Get(unsigned int id)
+{
+	LPANIMATION_SET ani_set = animation_sets[id];
+	if (ani_set == NULL)
+		DebugOut(L"[ERROR] Failed to find animation set id: %d\n", id);
+
+	return ani_set;
+}
+
+void CAnimationSets::Add(int id, LPANIMATION_SET ani_set)
+{
+	animation_sets[id] = ani_set;
 }

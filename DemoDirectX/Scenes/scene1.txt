@@ -1,0 +1,165 @@
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+0	textures\Simon.png	255	0	255
+1	textures\Ground.png	255	0	255
+2	textures\WHIP.png	255	0	255
+3	textures\Candle.png	255	0	255
+4	textures\Items.png	255	0	255
+5	textures\SubWeapons.png	255	0	255
+
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# Simon
+# idle
+1	0	0	60	64	0
+# walk
+2	60	0	120	64	0		
+3	120	0	180	64	0
+4	180	0	240	64	0
+#jump
+5	240	0	300	64	0
+#sit
+6	302	198	360	262	0
+#stand hit
+7	300	0	360	64	0
+8	360	0	420	64	0
+9	420	0	479	64	0
+#sit hit
+10	420	66	480	130	0
+11	0	132	60	196	0
+12	60	132	120	196	0
+#led
+13	120	198	180	262	0
+14	60	198	120	262	0
+15	0	198	60	262	0
+#Whip
+#whiplv1
+50	0	0	240	66	2
+51	240	0	480	66	2
+52	480	0	720	66	2
+#whiplv2
+53	0	66	240	132	2
+54	240	66	480	132	2
+55	480	66	720	132	2
+#whiplv3
+56	0	132	240	198	2
+57	240	198	480	264	2
+58	480	264	720	330	2
+#GROUND
+70	0	0	32	32	1
+#Candle 
+75	0	0	32	64	3
+76	32	0	64	64	3
+#Item for whip
+80	130	0	162	32	4
+#Item big heart
+81	16 	0	40	20	4	
+#Item knife
+82	162	0	194	18	4
+#Subweapon knife
+100	204	0	238	18	5
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+
+# ==== SIMON=========
+#idle
+0	1	100
+#run
+1	1	100	2	100	3	100	4	100
+#jump
+2	5	100
+#sit
+3	6	100
+#stand hit
+4	7	100	8	100	9	100
+#sit hit
+5	10	100	11	100	12	100
+#led
+6	13	100	14	100	15	100
+# ==== WHIP=========
+#lv1
+40	50	100	51	100	52	100
+#lv2
+41	53	100	54	100	55	100
+#lv3
+42	56	100	57	100	58	100
+# ==== GROUND=========
+50	70	100
+# ==== Candle =========
+55	75	100	76	100
+# ==== Items  =========
+# Chain	
+60	80	100
+#Big Heart
+61	81	100
+#Knife
+62	82	100
+#====SubWeapon=====
+#Knife
+80	100	100
+
+
+#
+# id	ani1	ani2	ani3
+#
+[ANIMATION_SETS]
+# Simon
+1	0	1	2	3	4	5	6
+# GROUND
+2	50
+#Candle
+3	55
+#Whip
+4	40	41	42
+#Items
+5	60	61	62
+#SubWeapon
+6	80
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = Simon , 1 = Ground , 2 = Candle
+# Simon
+0	0	0	1	
+
+# Ground
+1	0	162	2
+1	32	162	2
+1	64	162	2
+1	96	162	2
+1	128	162	2
+1	160	162	2
+1	192	162	2
+1	224	162	2
+1	256	162	2
+1	288	162	2
+1	320	162	2
+1	352	162	2
+1	384	162	2
+1	416	162	2
+1	448	162	2
+1	480	162	2
+1	512	162	2
+1	544	162	2
+1	576	162	2
+1	608	162	2
+1	640	162	2
+1	672	162	2
+1	704	162	2
+1	736	162	2
+1	768	162	2
+1	800	162	2
+1	832	162	2
+1	864	162	2
+1	896	162	2
+1	928	162	2
+1	960	162	2
+# Candle
+2	250	98	3	0		
+2	450	98	3	1
+2	650	98	3	2
+
+
+
+
+
