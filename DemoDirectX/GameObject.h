@@ -59,7 +59,7 @@ public:
 
 	int idItems;
 	bool isDone;
-	bool isVisible;
+	bool isFire;
 
 	DWORD dt;
 

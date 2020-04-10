@@ -55,6 +55,7 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 				if (e->nx != 0)
 				{
+					listHit.push_back(CreateHit(candle->GetPositionX(), candle->GetPositionY() + 10));
 					candle->SetState(break_candle);
 					isDone = true;
 				}					
@@ -65,10 +66,17 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	}	
 }
 
+Hit* Knife::CreateHit(float x, float y)
+{
+	return new Hit(x, y);
+}
 void Knife::Render()
 {
 	if(!isDone&&!CheckPosKnife(POSX))
 		SubWeapon::Render();
+
+	for (int i = 0; i < listHit.size(); i++)
+		listHit[i]->Render();
 
 	RenderBoundingBox();
 	
@@ -111,7 +119,7 @@ bool Knife::CheckPosKnife(float a)
 	if (vx > 0)
 	{
 		//if (x - a >= 200)//SCREEN_WIDTH / 2 )
-		if (x - a >= ((SCREEN_WIDTH/2) + 40))
+		if (x - a >= ((SCREEN_WIDTH/2) + 100))
 			return true;
 	}
 	else if (vx < 0)

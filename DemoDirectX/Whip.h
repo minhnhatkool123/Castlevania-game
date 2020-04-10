@@ -1,5 +1,6 @@
 #pragma once
 #include"GameObject.h"
+#include"Hit.h"
 #define whip_lv1 0
 #define whip_lv2 1
 #define whip_lv3 2
@@ -8,9 +9,11 @@
 
 class Whip :public CGameObject
 {
+	vector<LPHIT> listHit;
 public:
 	Whip();
 	~Whip();
+	Hit* CreateHit(float x, float y);
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	void Render(int currentID = -1);
@@ -21,6 +24,7 @@ public:
 	{
 		this->state = state;
 	}
+
 
 };
 

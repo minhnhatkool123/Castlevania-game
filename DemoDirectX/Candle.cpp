@@ -9,18 +9,18 @@ Candle::Candle()
 }
 void Candle::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	if (state == break_candle)
+	if (state == break_candle && animation_set->at(break_candle)->RenderOver(time_render_fire))
 		isDone = true;
 }
 
 void Candle::Render()
 {
-	if (state != break_candle)
-		animation_set->at(0)->Render(nx, x, y);
+	if (!isDone)
+		animation_set->at(state)->Render(nx, x, y);
 	else
 		return;
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Candle::GetBoundingBox(float &l, float &t, float &r, float &b)
@@ -29,8 +29,8 @@ void Candle::GetBoundingBox(float &l, float &t, float &r, float &b)
 	{
 		l = x;
 		t = y;
-		r = l + 32;
-		b = t + 64;
+		r = l + candle_width;
+		b = t + candle_height;
 	}
 }
 
@@ -40,6 +40,7 @@ void Candle::SetState(int State)
 	switch (State)
 	{
 	case break_candle:
+		animation_set->at(State)->StartAni();
 		break;
 	}
 }

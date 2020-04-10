@@ -7,7 +7,7 @@
 #include "Knife.h"
 
 #define simon_jump -0.5f
-#define simon_run 0.2f
+#define simon_run 0.15f
 #define simon_gravity 0.0015f
 
 #define simon_ani_idle 0

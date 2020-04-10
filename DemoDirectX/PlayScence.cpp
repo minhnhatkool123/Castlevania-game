@@ -49,6 +49,10 @@ Items* CPlayScene::DropItem(float x, float y,int id)
 	return a;
 }
 
+//Hit* CPlayScene::CreateHit(float x, float y)
+//{
+//	return new Hit(x, y);
+//}
 
 void CPlayScene::_ParseSection_TEXTURES(string line)
 {
@@ -249,6 +253,9 @@ void CPlayScene::Load()
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
+	 //L"TileMap\\TilesetStage1.png", L"TileMap\\TilesetStage1Text.txt");
+	tilemaps->Add(2000, L"TileMap\\Scene1.png", L"TileMap\\Scene1_map.txt");
+
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -265,23 +272,30 @@ void CPlayScene::Update(DWORD dt)
 		coObjects.push_back(objects[i]);
 	}
 
+	
 
 
 	for (UINT i = 0; i < allobject.size(); i++)
 	{
 		LPGAMEOBJECT obj = allobject[i];
 		//float x, y;
-		if (dynamic_cast<Candle*>(obj) && obj->GetState() == break_candle && !(obj->isDone))
+		if (dynamic_cast<Candle*>(obj) && obj->GetState() == break_candle && !(obj->isDone)&&!(obj->isFire))
 		{
-			obj->isDone = true;
+			//listHit.push_back(CreateHit(obj->GetPositionX(), obj->GetPositionY()+10));
+			if (obj->animation_set->at(break_candle)->RenderOver(time_render_fire))//để khi render xong lửa thì mới rới đồ
+			{
+				obj->isFire = true;
+				listitems.push_back(DropItem(obj->GetPositionX(), obj->GetPositionY(), obj->idItems));
+			}
 			
-			listitems.push_back(DropItem(obj->GetPositionX(), obj->GetPositionY(),obj->idItems));
-			
-
 		}
 	}
 
 	simon->SimonColliWithItems(&listitems);
+
+	for (int i = 0; i < objectsstatic.size(); i++) //update cây nến ở đây để cho khi render xong lửa thì mới rớt đồ
+		objectsstatic[i]->Update(dt);
+
 
 	for (int i = 0; i < listitems.size(); i++)
 		listitems[i]->Update(dt, &coObjects);
@@ -299,6 +313,13 @@ void CPlayScene::Update(DWORD dt)
 			if (simon->isHitSubWeapon)
 			{				
 				simon->GetKnife()->isDone = false;
+
+				//simon->GetKnife()->SetNx(simon->Getnx());
+
+				if (simon->GetState() == simon_ani_sit) //ko để dc trong update simon //để đây để có thể nhảy bắn
+					simon->GetKnife()->SetPosSubWeapon(D3DXVECTOR3(simon->GetPositionX(), simon->GetPositionY(), 0), false);
+				else
+					simon->GetKnife()->SetPosSubWeapon(D3DXVECTOR3(simon->GetPositionX(), simon->GetPositionY(), 0), true);
 			}
 			else
 				simon->GetWhip()->Update(dt, &objectsstatic);
@@ -315,18 +336,25 @@ void CPlayScene::Update(DWORD dt)
 
 
 	CGame *game = CGame::GetInstance();
-	if (simon->GetPositionX() > (game->GetScreenWidth() / 2))
+
+	//if simon->GetPositionX() + (SCREEN_WIDTH / 2) < 1536/* && simon->GetPositionX() > (SCREEN_WIDTH / 2))
+	/*if (simon->GetPositionX() >= 1536)
 	{
-		cx = simon->GetPositionX() - (game->GetScreenWidth() / 2);
+		cx -= SCREEN_WIDTH / 2 - (1536 - simon->GetPositionX());
+	}*/
+	if (simon->GetPositionX() > (SCREEN_WIDTH/ 2)&& simon->GetPositionX() + (SCREEN_WIDTH / 2) < 1536)
+	{
+		cx = simon->GetPositionX() - (SCREEN_WIDTH / 2);
 		CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	}
 	//cy -= game->GetScreenHeight() / 2;
-
 	
 }
 
 void CPlayScene::Render()
 {
+	tilemaps->Get(2000)->Draw();
+
 	for (int i = 0; i < listitems.size(); i++)
 		listitems[i]->Render();
 
@@ -336,6 +364,9 @@ void CPlayScene::Render()
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 
+	/*for (int i = 0; i < listHit.size(); i++)
+		listHit[i]->Render();*/
+	
 	//if(simon->isHitSubWeapon&&simon->currentWeapon!=-1)
 		//simon->GetKnife()->Render();
 }
@@ -422,13 +453,7 @@ void CPlayScenceKeyHandler::Hit_SubWeapon()
 	if (simon->GetKnife()->isDone == false) //để cho vũ khí phụ ko thể đánh quá nhiều
 		return;
 	simon->isHitSubWeapon = true;
-	if (simon->GetState() == simon_ani_sit) //ko để dc trong update simon
-		simon->GetKnife()->SetPosSubWeapon(D3DXVECTOR3(simon->GetPositionX(), simon->GetPositionY(), 0), false);
-	else
-		simon->GetKnife()->SetPosSubWeapon(D3DXVECTOR3(simon->GetPositionX(), simon->GetPositionY(), 0), true);
-	
-	
-
+	simon->GetKnife()->SetNx(simon->Getnx());//để hướng ở đây để ko bị thay đổi khi simon quay lưng ngay lập tức
 	simon->GetKnife()->SetState(knife_ani);
 	Hit();
 }

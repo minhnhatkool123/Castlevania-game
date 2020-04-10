@@ -25,8 +25,11 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				if (WhipCheckColli(left, top, right, bottom))
 				{
+					if(e->GetState()!=break_candle)
+						listHit.push_back(CreateHit(e->GetPositionX(), e->GetPositionY() + 10));
 					e->SetState(break_candle);
-
+					
+					
 				}
 
 			}
@@ -36,18 +39,30 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void Whip::Render(int currentID)
 {
+	for (int i = 0; i < listHit.size(); i++)
+	{
+		/*if (listHit[i]->timedestroy() == false)
+			listHit[i]->Render();
+		else
+			listHit.clear();*/
+		listHit[i]->Render();
+	}
+	//listHit.clear();
+	
 	if (currentID >= 0)		
 	{
 		animation_set->at(state)->RenderWhip(currentID, nx, x, y);
 
 	}
-	//animations[0]->Render(nx, x, y);
+	
+
+	
 	RenderBoundingBox();
 }
 
 void Whip::Render()
 {
-	//animations[0]->Render(nx, x, y);
+	
 }
 
 void Whip::SetPosWhip(D3DXVECTOR3 pos, bool isstanding)
@@ -57,7 +72,10 @@ void Whip::SetPosWhip(D3DXVECTOR3 pos, bool isstanding)
 		pos.y += 15;
 	SetPosition(pos.x, pos.y);
 }
-
+Hit* Whip::CreateHit(float x, float y)
+{
+	return new Hit(x, y);
+}
 
 bool Whip::WhipCheckColli(float l_b, float t_b, float r_b, float b_b)
 {

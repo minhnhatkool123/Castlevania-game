@@ -9,17 +9,21 @@
 #include "Ground.h"
 #include "Items.h"
 #include "Knife.h"
+#include "Hit.h"
+#include "TileMap.h"
 
 
 class CPlayScene : public CScene
 {
 protected:
-			
+		
+	TileMaps *tilemaps = TileMaps::GetInstance();
 	
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> objectsstatic;
 	vector<LPGAMEOBJECT> allobject;
 	vector<LPGAMEOBJECT> listitems;
+	//vector<LPHIT> listHit;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -35,6 +39,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 	Items* DropItem(float x, float y,int id);
+	//Hit* CreateHit(float x, float y);
 	friend class CPlayScenceKeyHandler;
 };
 

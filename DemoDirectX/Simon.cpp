@@ -91,12 +91,14 @@ void Simon::Render()
 	if (nx > 0)
 	{
 		whip->SetNx(1);
-		knife->SetNx(1);
+		//if(isHitSubWeapon)
+			//knife->SetNx(1);
 	}
 	else
 	{
 		whip->SetNx(-1);
-		knife->SetNx(-1);
+		//if (isHitSubWeapon)
+			//knife->SetNx(-1);
 	}
 
 	if ((state == simon_ani_stand_hit || state == simon_ani_sit_hit)&&!isHitSubWeapon||(isHitSubWeapon&&currentWeapon==-1))	
@@ -110,6 +112,7 @@ void Simon::Render()
 	//if (isHitSubWeapon&&currentWeapon != -1)
 	if(currentWeapon!=-1)
 	{
+		
 		knife->Render();
 	}
 		
