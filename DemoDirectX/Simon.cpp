@@ -9,6 +9,7 @@ Simon::Simon()
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(simon_ani_set));
 	currentWeapon = -1;
 	isGrounded = false;
+	health = simon_max_health;
 	//state = simon_ani_idle;
 }
 
@@ -197,7 +198,9 @@ void Simon::SimonColliWithItems(vector<LPGAMEOBJECT> *listitems)//hàm này đ�
 			}
 			else if (e->GetState() == items_big_heart)
 			{
+				
 				e->isDone = true;
+				health = health - 1;
 			}
 			else if (e->GetState() == items_knife)
 			{

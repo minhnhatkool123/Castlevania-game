@@ -70,7 +70,7 @@ void CPlayScene::LoadBaseObject()
 
 		DebugOut(L"[INFO]SIMON CREATED \n");
 	}
-
+	board = new Board(simon->GetHealth(),16);
 }
 
 Items* CPlayScene::DropItem(float x, float y,int id)
@@ -439,17 +439,20 @@ void CPlayScene::Update(DWORD dt)
 	{
 		cx = simon->GetPositionX() - (SCREEN_WIDTH / 2);
 		CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+		
 	}
 	//cy -= game->GetScreenHeight() / 2;
-	
+	board->Update(simon->GetHealth(), 16);
 }
 
 void CPlayScene::Render()
 {
 	
-	
+	board->Render(1, CGame::GetInstance()->GetCamPosX(), 0);
 
 	tilemaps->Get(2000)->Draw();
+	
+
 
 	for (int i = 0; i < listitems.size(); i++)
 		listitems[i]->Render();

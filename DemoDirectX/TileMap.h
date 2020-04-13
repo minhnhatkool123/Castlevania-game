@@ -8,6 +8,10 @@
 #include <sstream>
 #include"Game.h"
 #define SCENE_1 2000
+#define SCENE_1_ROW 10
+#define SCENE_1_COL 48
+#define SCENE_1_ROW_READ 4
+#define SCENE_1_COL_READ 17
 
 
 class TileMap

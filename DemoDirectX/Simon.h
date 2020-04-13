@@ -19,11 +19,16 @@
 #define simon_ani_led 6
 
 #define simon_ani_set 1
+
+#define simon_max_health 16
 class Simon :public CGameObject
 {
 	Whip *whip;
 
 	SubWeapon *knife;
+
+	int health;
+
 	
 public:
 	//bool isFighting;
@@ -45,6 +50,6 @@ public:
 		return knife;
 	}
 	void SimonColliWithItems(vector<LPGAMEOBJECT> *listitems);
-	
+	int GetHealth() { return health; }
 };
 

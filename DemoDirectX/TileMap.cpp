@@ -65,10 +65,10 @@ void TileMap::LoadMap()
 	switch (id)
 	{
 	case SCENE_1:
-		num_row = 10;//6;
-		num_col = 48;//24;
-		num_row_read = 4;
-		num_col_read = 17; //8;
+		num_row = SCENE_1_ROW;//10;//6;
+		num_col = SCENE_1_COL;//24;
+		num_row_read = SCENE_1_ROW_READ;//4;
+		num_col_read = SCENE_1_COL_READ;//17; //8;
 		break;
 	default:
 		break;

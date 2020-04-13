@@ -3,7 +3,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <unordered_map>
-#define SCREEN_WIDTH 512
+#define SCREEN_WIDTH 530
 #define SCREEN_HEIGHT 480
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>

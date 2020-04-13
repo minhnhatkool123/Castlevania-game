@@ -12,12 +12,14 @@
 #include "Hit.h"
 #include "TileMap.h"
 
+#include"Board.h"
 
 class CPlayScene : public CScene
 {
 protected:
 		
 	TileMaps *tilemaps = TileMaps::GetInstance();
+	Board *board;
 	
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> objectsstatic;
