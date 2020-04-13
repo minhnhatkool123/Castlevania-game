@@ -31,6 +31,9 @@
 #include"Candle.h"
 #include"Items.h"
 
+#include"SceneManager.h";
+
+
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"Castlevani"
@@ -44,6 +47,7 @@
 
 
 CGame *game;
+SceneManager *scenemanager;
 //Simon *simon;
 //
 //vector<LPGAMEOBJECT> objects;
@@ -487,7 +491,8 @@ void Update(DWORD dt)
 
 	//CGame::GetInstance()->SetCamPos(cx, 0.0f /*y*/);
 
-	CGame::GetInstance()->GetCurrentScene()->Update(dt);
+	//CGame::GetInstance()->GetCurrentScene()->Update(dt);
+	scenemanager->Update(dt);
 }
 
 /*
@@ -516,7 +521,8 @@ void Render()
 			objects[i]->Render();*/
 
 		
-		CGame::GetInstance()->GetCurrentScene()->Render();
+		//CGame::GetInstance()->GetCurrentScene()->Render();
+		scenemanager->Render();
 		
 
 
@@ -618,11 +624,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	scenemanager = SceneManager::GetInstance();
 	game = CGame::GetInstance();
 	game->Init(hWnd);
 	game->InitKeyboard();
 
-	game->Load(L"Scenes\\Castlevania.txt");
+	//game->Load(L"Scenes\\Castlevania.txt");
+	scenemanager->SetScene(new CPlayScene());
 	
 
 

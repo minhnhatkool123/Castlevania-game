@@ -17,6 +17,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 	vy += simon_gravity * dt;
 
+	if (x < -11)
+		x = -11;
 
 	if(state==simon_ani_sit_hit)
 		whip->SetPosWhip(D3DXVECTOR3(this->x, this->y, 0), false);

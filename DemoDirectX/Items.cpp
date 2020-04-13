@@ -60,12 +60,12 @@ void Items::Render()
 {
 	if (isDone)
 		return;
-	int alpha = 255;
-	if (GetTickCount() - timeStart > 1500)
-		alpha=rand() % 100 + 1;
+	//int alpha = 255;
+	/*if (GetTickCount() - timeStart > 1500)
+		alpha=rand() % 100 + 1;*/
 	
 	
-	animation_set->at(state)->Render(-1, x, y,alpha);
+	animation_set->at(state)->Render(-1, x, y);
 	RenderBoundingBox();
 }
 

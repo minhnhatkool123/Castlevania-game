@@ -32,9 +32,12 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 public:
 	Simon *simon;
-	CPlayScene(int id, LPCWSTR filePath);
+	CPlayScene(/*int id, LPCWSTR filePath*/);
 
 	virtual void Load();
+	virtual void LoadObject();
+	virtual void LoadBaseObject();
+	virtual void SwitchScene(int id);
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();

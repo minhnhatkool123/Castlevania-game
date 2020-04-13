@@ -7,6 +7,8 @@
 #include<string>
 #include <sstream>
 #include"Game.h"
+#define SCENE_1 2000
+
 
 class TileMap
 {

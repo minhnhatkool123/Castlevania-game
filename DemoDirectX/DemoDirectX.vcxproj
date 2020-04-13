@@ -96,7 +96,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayScence.cpp" />
     <ClCompile Include="Scence.cpp" />
-    <ClCompile Include="SenceManager.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="SubWeapon.cpp" />
@@ -117,7 +117,7 @@
     <ClInclude Include="Knife.h" />
     <ClInclude Include="PlayScence.h" />
     <ClInclude Include="Scence.h" />
-    <ClInclude Include="SenceManager.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="SubWeapon.h" />

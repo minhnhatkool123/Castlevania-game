@@ -7,20 +7,6 @@
 #include "Sprites.h"
 
 
-
-using namespace std;
-
-CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
-	CScene(id, filePath)
-{
-	key_handler = new CPlayScenceKeyHandler(this);
-}
-
-/*
-	Load scene resources from scene file (textures, sprites, animations and objects)
-	See scene1.txt, scene2.txt for detail format specification
-*/
-
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2
 #define SCENE_SECTION_SPRITES 3
@@ -36,6 +22,56 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_PORTAL	50
 
 #define MAX_SCENE_LINE 1024
+
+
+using namespace std;
+
+CPlayScene::CPlayScene() :	CScene()
+{
+	key_handler = new CPlayScenceKeyHandler(this);
+	sceneFilePath = /*ToLPCWSTR("Scenes/Castlevania.txt");*/L"Scenes\\Castlevania.txt";
+	Load();//load ani sprites texture
+	
+	LoadBaseObject();
+	SwitchScene(SCENE_1);
+
+}
+
+
+
+/*
+	Load scene resources from scene file (textures, sprites, animations and objects)
+	See scene1.txt, scene2.txt for detail format specification
+*/
+
+
+
+void CPlayScene::SwitchScene(int idmap)
+{
+	switch (idmap)
+	{
+	case SCENE_1:
+		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
+
+		sceneObject = L"Scenes\\scene1.txt";
+		tilemaps->Add(SCENE_1, L"TileMap\\Scene1.png", L"TileMap\\Scene1_map.txt");	
+		LoadObject();
+		break;
+	default:
+		break;
+	}
+}
+
+void CPlayScene::LoadBaseObject()
+{
+	if (simon == NULL)
+	{
+		simon = new Simon();
+
+		DebugOut(L"[INFO]SIMON CREATED \n");
+	}
+
+}
 
 Items* CPlayScene::DropItem(float x, float y,int id)
 {
@@ -161,17 +197,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 	case OBJECT_TYPE_SIMON:
 	{
-		if (simon != NULL)
+		/*if (simon != NULL)
 		{
-			DebugOut(L"[ERROR] MARIO object was created before! ");
+			DebugOut(L"[ERROR]	SIMON object was created before! ");
 			return;
-		}
-		//simon = new Simon();
-		obj = new Simon();
-		simon = (Simon*)obj;
-		//simon->SetPosition(x, y);
+		}*/
+
+		simon->SetPosition(x, y);
 		
-		objects.push_back(simon);
+		//objects.push_back(simon);
 		break;
 	}
 	case OBJECT_TYPE_GROUND: 
@@ -179,7 +213,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Ground();
 		// General object setup
 		//obj->SetPosition(x, y);
-
+		
+		obj->SetPosition(x, y);
 		objects.push_back(obj);
 		break;
 	}
@@ -193,6 +228,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj->idItems = id;
 		allobject.push_back(obj);
 		objectsstatic.push_back(obj);
+
+
+		obj->SetPosition(x, y);
 		break;
 	}
 	default:
@@ -201,7 +239,48 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	obj->SetPosition(x, y);
+	
+	/*obj->SetPosition(x, y);*/
+}
+
+void CPlayScene::LoadObject()
+{
+
+	DebugOut(L"[INFO] StartLOAD OBJECT  resources from : %s \n", sceneObject);
+
+	ifstream f;
+	f.open(sceneObject);
+
+	/*if (f.fail())
+	{
+		DebugOut(L"[ERROR] LOAD OBJECT FAIL : %s \n", sceneObject);
+		f.close();
+		return;
+	}*/
+
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;
+
+		if (line == "[OBJECTS]") {
+			section = SCENE_SECTION_OBJECTS; continue;
+		}
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+
+		switch (section)
+		{
+			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		}
+	}
+	f.close();
+
+	DebugOut(L"[INFO] Done LOAD OBJECT  resources from %s\n", sceneObject);
 }
 
 void CPlayScene::Load()
@@ -210,6 +289,15 @@ void CPlayScene::Load()
 
 	ifstream f;
 	f.open(sceneFilePath);
+
+
+	/*if (f.fail())
+	{
+		DebugOut(L"[ERROR] LOAD ANISPRITETEXT FAIL : %s \n", sceneFilePath);
+		f.close();
+		return;
+	}*/
+
 
 	// current resource section flag
 	int section = SCENE_SECTION_UNKNOWN;
@@ -231,9 +319,9 @@ void CPlayScene::Load()
 		if (line == "[ANIMATION_SETS]") {
 			section = SCENE_SECTION_ANIMATION_SETS; continue;
 		}
-		if (line == "[OBJECTS]") {
+		/*if (line == "[OBJECTS]") {
 			section = SCENE_SECTION_OBJECTS; continue;
-		}
+		}*/
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -245,7 +333,7 @@ void CPlayScene::Load()
 		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
-		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		//case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
 
@@ -254,7 +342,7 @@ void CPlayScene::Load()
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	 //L"TileMap\\TilesetStage1.png", L"TileMap\\TilesetStage1Text.txt");
-	tilemaps->Add(2000, L"TileMap\\Scene1.png", L"TileMap\\Scene1_map.txt");
+	//tilemaps->Add(2000, L"TileMap\\Scene1.png", L"TileMap\\Scene1_map.txt");
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -306,6 +394,8 @@ void CPlayScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
+	simon->Update(dt, &coObjects);
+
 	//for (int i = 0; i < coObjects.size(); i++)
 	{
 		if (simon->animation_set->at(simon_ani_stand_hit)->GetcurrentFrame() == 2 && simon->GetState() == simon_ani_stand_hit||(simon->animation_set->at(simon_ani_sit_hit)->GetcurrentFrame() == 2 && simon->GetState() == simon_ani_sit_hit))
@@ -330,6 +420,9 @@ void CPlayScene::Update(DWORD dt)
 	if(simon->currentWeapon!=-1&&!simon->GetKnife()->isDone) // khác -1 để ko bay ra phi tiêu // ko thể thêm đk đang đánh vũ khí phụ dc
 		simon->GetKnife()->Update(dt, &objectsstatic);
 		
+
+	
+
 	
 	float cx, cy;
 	simon->GetPosition(cx, cy);
@@ -353,6 +446,9 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+	
+	
+
 	tilemaps->Get(2000)->Draw();
 
 	for (int i = 0; i < listitems.size(); i++)
@@ -363,6 +459,9 @@ void CPlayScene::Render()
 
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+
+
+	simon->Render();
 
 	/*for (int i = 0; i < listHit.size(); i++)
 		listHit[i]->Render();*/
@@ -376,11 +475,11 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
+	//for (int i = 0; i < objects.size(); i++)
+	//	delete objects[i];
 
-	objects.clear();
-	simon = NULL;
+	//objects.clear();
+	//simon = NULL;
 }
 
 void CPlayScenceKeyHandler::RunRight()

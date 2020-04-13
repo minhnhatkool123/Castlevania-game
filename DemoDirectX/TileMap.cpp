@@ -64,7 +64,7 @@ void TileMap::LoadMap()
 	int num_row_read, num_col_read;
 	switch (id)
 	{
-	case 2000:
+	case SCENE_1:
 		num_row = 10;//6;
 		num_col = 48;//24;
 		num_row_read = 4;
