@@ -10,6 +10,7 @@
 7	textures\Spark.png	255	0	255
 8	textures\BlackBoard.png	1	1	1
 9	textures\HP.png	1	1	1
+10	textures\Texts.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -58,8 +59,12 @@
 80	130	0	162	32	4
 #Item big heart
 81	16 	0	40	20	4	
-#Item knife
+#Item knife,watch,axe,boom,water
 82	162	0	194	18	4
+83	194	0	224	32	4
+84	256	0	286	28	4
+85	0	32	30	60	4
+86	30	32	62	64	4
 #Subweapon knife
 100	204	0	238	18	5
 #Effect  fire
@@ -74,7 +79,27 @@
 126	0	0	8	15	9
 127	8	0	16	15	9
 128	16	0	24	14	9
-	
+#TEXTNUM
+#0
+129	0	28	15	42	10
+#1
+130	15	28	30	42	10
+#2
+131	30	28	45	42	10
+#3
+132	45	28	60	42	10
+#4
+133	60	28	75	42	10
+#5
+134	75	28	90	42	10
+#6
+135	90	28	105	42	10
+#7
+136	105	28	120	42	10
+#8
+137	120	28	135	42	10
+#9
+138	135	28	150	42	10
 
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
@@ -113,6 +138,10 @@
 61	81	100
 #Knife
 62	82	100
+63	83	100
+64	84	100
+65	85	100
+66	86	100
 #====SubWeapon=======
 #Knife
 80	100	100
@@ -148,7 +177,7 @@
 #Whip
 4	40	41	42
 #Items
-5	60	61	62
+5	60	61	62	63	64	65	66
 #SubWeapon
 6	80
 #EffectHit

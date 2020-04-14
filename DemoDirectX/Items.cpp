@@ -93,6 +93,12 @@ void Items::GetBoundingBox(float &l, float &t, float &r, float &b)
 			r = l + 32;
 			b = t + 18;
 			break;
+		case items_watch:
+			l = x;
+			t = y;
+			r = l + 30;
+			b = t + 32;
+			break;
 		}
 	}
 }
@@ -114,6 +120,9 @@ void Items::SetState(int State)
 		vx = 0;
 		vy = 0.15;
 		break;
+	case items_watch:
+		vx = 0;
+		vy = 0.15;
 	}
 }
 

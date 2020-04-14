@@ -95,14 +95,23 @@ void Whip::GetBoundingBox(float &l, float &t, float &r, float &b)
 	b = t + 15;
 	if (nx < 0)
 	{
-		l = x + 50;
+		if (state == whip_lv3)
+			l = x + 20;
+		else
+			l = x + 50;
 	}
 	else if (nx > 0)
 	{
-		l =  x+135;
+		if (state == whip_lv3)
+			l = x + 135;
+		else
+			l = x + 135;
 	}
 
-	r = l + 55;
+	if (state == whip_lv3)
+		r = l + 85;
+	else
+		r = l + 55;
 }
 
 

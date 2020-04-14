@@ -52,7 +52,7 @@ void CPlayScene::SwitchScene(int idmap)
 	{
 	case SCENE_1:
 		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
-
+		idstage = 1;
 		sceneObject = L"Scenes\\scene1.txt";
 		tilemaps->Add(SCENE_1, L"TileMap\\Scene1.png", L"TileMap\\Scene1_map.txt");	
 		LoadObject();
@@ -349,6 +349,7 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
+	
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
@@ -442,13 +443,13 @@ void CPlayScene::Update(DWORD dt)
 		
 	}
 	//cy -= game->GetScreenHeight() / 2;
-	board->Update(simon->GetHealth(), 16);
+	board->Update(dt, simon->GetHealth(), 16);
 }
 
 void CPlayScene::Render()
 {
 	
-	board->Render(1, CGame::GetInstance()->GetCamPosX(), 0);
+	board->Render(idstage, CGame::GetInstance()->GetCamPosX(), 0, simon);
 
 	tilemaps->Get(2000)->Draw();
 	
@@ -546,7 +547,7 @@ void CPlayScenceKeyHandler::Hit_SubWeapon()
 {
 	Simon *simon = ((CPlayScene*)scence)->simon;
 
-	if (simon->currentWeapon == -1)
+	if (simon->currentWeapon == -1||simon->getmana()==0)
 	{
 		Hit();
 		return;  //return để không bị đánh khi không có vũ khí phụ
@@ -556,7 +557,11 @@ void CPlayScenceKeyHandler::Hit_SubWeapon()
 		return;
 	simon->isHitSubWeapon = true;
 	simon->GetKnife()->SetNx(simon->Getnx());//để hướng ở đây để ko bị thay đổi khi simon quay lưng ngay lập tức
-	simon->GetKnife()->SetState(knife_ani);
+	if (simon->getcurrentweapon() == 0)
+	{
+		simon->GetKnife()->SetState(knife_ani);
+		simon->usemana(1);
+	}
 	Hit();
 }
 

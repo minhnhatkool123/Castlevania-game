@@ -28,6 +28,9 @@ class Simon :public CGameObject
 	SubWeapon *knife;
 
 	int health;
+	int score;
+	int mana;
+	int life;
 
 	
 public:
@@ -49,6 +52,11 @@ public:
 	{
 		return knife;
 	}
+	int getcurrentweapon() { return currentWeapon; }
+	int getscore() { return score; }
+	int getmana() { return mana; }
+	int getlife() { return life; }
+	void usemana(int a) { mana -= a; }
 	void SimonColliWithItems(vector<LPGAMEOBJECT> *listitems);
 	int GetHealth() { return health; }
 };

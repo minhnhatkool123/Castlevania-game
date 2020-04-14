@@ -4,7 +4,7 @@
 #define items_for_whip 0
 #define items_big_heart 1
 #define items_knife 2
-
+#define items_watch 3
 #define items_ani_set 5
 class Items :public CGameObject
 {

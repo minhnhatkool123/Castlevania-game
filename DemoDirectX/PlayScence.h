@@ -18,6 +18,7 @@ class CPlayScene : public CScene
 {
 protected:
 		
+	int idstage;
 	TileMaps *tilemaps = TileMaps::GetInstance();
 	Board *board;
 	

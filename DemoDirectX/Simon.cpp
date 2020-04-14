@@ -11,6 +11,9 @@ Simon::Simon()
 	isGrounded = false;
 	health = simon_max_health;
 	//state = simon_ani_idle;
+	score = 0;
+	mana = 5;
+	life = 3;
 }
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -200,14 +203,19 @@ void Simon::SimonColliWithItems(vector<LPGAMEOBJECT> *listitems)//hàm này đ�
 			{
 				
 				e->isDone = true;
-				health = health - 1;
+				//health = health - 1;
+				mana += 5;
 			}
 			else if (e->GetState() == items_knife)
 			{
 				e->isDone = true;
 				currentWeapon = 0;
-				//e->SetState(knife_ani);
-				
+				//e->SetState(knife_ani);				
+			}
+			else if (e->GetState() == items_watch)
+			{
+				e->isDone = true;
+				currentWeapon = 1;
 			}
 		}
 		
