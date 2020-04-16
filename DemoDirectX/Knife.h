@@ -6,6 +6,8 @@
 
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 480
+#define knife_box_width 34
+#define knife_box_height 18
 class Knife :public SubWeapon
 {
 	float POSX;

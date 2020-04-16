@@ -8,7 +8,7 @@ HealthBar::HealthBar(int heal)
 	maxhealth = max_heal;
 	for (int i = 0; i < maxhealth; i++)
 	{
-		healthbar.push_back(CAnimationSets::GetInstance()->Get(9));
+		healthbar.push_back(CAnimationSets::GetInstance()->Get(healthbar_ani_set));
 	}
 	// = CAnimationSets::GetInstance()->Get(9);
 	//this->healthsimon = healthsimon;

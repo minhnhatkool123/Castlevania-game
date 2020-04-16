@@ -21,6 +21,12 @@
 #define simon_ani_set 1
 
 #define simon_max_health 16
+
+#define simon_box_width 34
+#define simon_box_height 62
+
+#define simon_delay_hit 300
+#define simon_delay_led 600
 class Simon :public CGameObject
 {
 	Whip *whip;
@@ -34,7 +40,6 @@ class Simon :public CGameObject
 
 	
 public:
-	//bool isFighting;
 	bool isGrounded;
 	bool isHitSubWeapon;
 	int currentWeapon;

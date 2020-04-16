@@ -45,11 +45,7 @@ void Items::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
-		/*if (ny != 0)
-		{
-			vx = 0;
-			vy = 0;
-		}*/
+		
 	}
 
 	// clean up collision events
@@ -60,10 +56,6 @@ void Items::Render()
 {
 	if (isDone)
 		return;
-	//int alpha = 255;
-	/*if (GetTickCount() - timeStart > 1500)
-		alpha=rand() % 100 + 1;*/
-	
 	
 	animation_set->at(state)->Render(-1, x, y);
 	RenderBoundingBox();
@@ -78,26 +70,26 @@ void Items::GetBoundingBox(float &l, float &t, float &r, float &b)
 		case items_for_whip:
 			l = x;
 			t = y;
-			r = l + 32;
-			b = t + 32;
+			r = l + items_whip_box_width;
+			b = t + items_whip_box_height;
 			break;
 		case items_big_heart:
 			l = x;
 			t = y;
-			r = l + 24;
-			b = t + 20;
+			r = l + items_bigheart_box_width;
+			b = t + items_bigheart_box_height;
 			break;
 		case items_knife:
 			l = x;
 			t = y;
-			r = l + 32;
-			b = t + 18;
+			r = l + items_knife_box_width;
+			b = t + items_knife_box_height;
 			break;
 		case items_watch:
 			l = x;
 			t = y;
-			r = l + 30;
-			b = t + 32;
+			r = l + items_watch_box_width;
+			b = t + items_watch_box_height;
 			break;
 		}
 	}

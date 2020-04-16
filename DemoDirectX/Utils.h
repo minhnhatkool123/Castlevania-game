@@ -16,6 +16,7 @@ using namespace std;
 void DebugOut(wchar_t *fmt, ...);
 
 vector<string> split(string line, string delimeter = "\t");
+vector<string> splitmap(string line, string delimater = " ");
 wstring ToWSTR(string st);
 
 LPCWSTR ToLPCWSTR(string st);

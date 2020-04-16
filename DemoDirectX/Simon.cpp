@@ -21,31 +21,34 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 	vy += simon_gravity * dt;
 
-	if (x < -11)
+	if (x < -11) //để cài không cho simon đi ngược màn hình
 		x = -11;
 
-	if(state==simon_ani_sit_hit)
+	/*if(state==simon_ani_sit_hit)
 		whip->SetPosWhip(D3DXVECTOR3(this->x, this->y, 0), false);
 	else
-		whip->SetPosWhip(D3DXVECTOR3(this->x, this->y, 0), true);
-	/*if (state == simon_ani_stand_hit && animations[simon_ani_stand_hit]->RenderOver(300))
-	{
-		if (!(isGrounded))
-			SetState(simon_ani_jump);
-		else
-			SetState(simon_ani_idle);
-	}*/
+		whip->SetPosWhip(D3DXVECTOR3(this->x, this->y, 0), true);*/
 
-	
-	
 	
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
 
+	vector<LPGAMEOBJECT> COOBJECTS;
+	COOBJECTS.clear();
+	//LPGAMEOBJECT a;
+	//dynamic_cast<Candle*>(a);
+	for (int i = 0; i < coObjects->size(); i++)
+	{	
+		if (coObjects->at(i)!= dynamic_cast<Candle*>(coObjects->at(i)))
+		{
+			COOBJECTS.push_back(coObjects->at(i));
+		}
+	}
+
 	
-	CalcPotentialCollisions(coObjects, coEvents);
+	CalcPotentialCollisions(&COOBJECTS/*coObjects*/, coEvents);
 
 
 	if (coEvents.size() == 0)
@@ -94,37 +97,32 @@ void Simon::Render()
 {
 	animation_set->at(state)->Render(nx, x, y);
 
-	if (nx > 0)
+	/*if (nx > 0)
 	{
 		whip->SetNx(1);
-		//if(isHitSubWeapon)
-			//knife->SetNx(1);
 	}
 	else
 	{
 		whip->SetNx(-1);
-		//if (isHitSubWeapon)
-			//knife->SetNx(-1);
-	}
+	}*/
 
-	if ((state == simon_ani_stand_hit || state == simon_ani_sit_hit)&&!isHitSubWeapon||(isHitSubWeapon&&currentWeapon==-1))	
+	/*if ((state == simon_ani_stand_hit || state == simon_ani_sit_hit)&&!isHitSubWeapon||(isHitSubWeapon&&currentWeapon==-1))	
 	{		
 		whip->Render(animation_set->at(state)->GetcurrentFrame());		
 	}
 	else
-		whip->Render(-1);
+		whip->Render(-1);*/
 	
 
-	//if (isHitSubWeapon&&currentWeapon != -1)
-	if(currentWeapon!=-1)
-	{
-		
+	
+	/*if(currentWeapon!=-1)
+	{	
 		knife->Render();
-	}
+	}*/
 		
 	
 	
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 
@@ -173,8 +171,8 @@ void Simon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x+15;
 	top = y;
-	right = left + 33;
-	bottom = top + 62;
+	right = left +simon_box_width;
+	bottom = top +simon_box_height;
 }
 
 void Simon::SimonColliWithItems(vector<LPGAMEOBJECT> *listitems)//hàm này để tránh việc ko xét va chạm dc khi 2 simon trùng với items
@@ -209,13 +207,13 @@ void Simon::SimonColliWithItems(vector<LPGAMEOBJECT> *listitems)//hàm này đ�
 			else if (e->GetState() == items_knife)
 			{
 				e->isDone = true;
-				currentWeapon = 0;
+				currentWeapon = weapon_knfie;
 				//e->SetState(knife_ani);				
 			}
 			else if (e->GetState() == items_watch)
 			{
 				e->isDone = true;
-				currentWeapon = 1;
+				currentWeapon = weapon_watch;
 			}
 		}
 		

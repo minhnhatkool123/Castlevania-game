@@ -1,63 +1,56 @@
 ﻿#include "TileMap.h"
 
-TileMap::TileMap(int ID, LPCWSTR filePath_tex, LPCWSTR filePath_data, int tile_width , int tile_height)
+TileMap::TileMap()
 {
-	id = ID;
-
-	this->mappic = filePath_tex;
-	this->mapFilePath = filePath_data;
-
-
-	this->tile_width = tile_width;
-	this->tile_height = tile_height;
-
-	
-	LoadMap();
-	Load();
+	this->tile_width = TILE_WIDTH;
+	this->tile_height = TILE_HEIGHT;
 }
 void TileMap::Load()
 {
 	DebugOut(L"[INFO] Start loading map resources from : %s \n", mapFilePath);
 
-	ifstream fs(mapFilePath, ios::in);
+	ifstream f;
+	f.open(mapFilePath);
 
-	if (fs.fail())
+	if (f.fail())
 	{
 		DebugOut(L"[ERROR] TileMap::Load_MapData failed: ID=%d", id);
-		fs.close();
+		f.close();
 		return;
 	}
 
-	string line;
 
-	while (!fs.eof())
+
+	//vector<LPSPRITE> spriteline;
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
 	{
-		getline(fs, line);
-
-		// Lưu sprite tile vào vector tilemap
+		string line(str);
 		vector<LPSPRITE> spriteline;
-		stringstream ss(line);
-		int n;
-
-		while (ss >> n)
+		vector<string> tokens = splitmap(line);
+		for (int i = 0; i < tokens.size(); i++)
 		{
-			int idTile = id + n;
-			spriteline.push_back(sprites->Get(idTile));
-		}
+			int idsprite = id + atoi(tokens[i].c_str());
+			spriteline.push_back(sprites->Get(idsprite));
 
+
+		}
 		tilemap.push_back(spriteline);
 	}
-
-	fs.close();
+	f.close();
+	
 
 	DebugOut(L"[INFO] Done loading map resources %s\n", mapFilePath);
 }
 
-void TileMap::LoadMap()
+void TileMap::LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data)
 {
 	CTextures * texture = CTextures::GetInstance();
-	/*if (id == 1000)
-		texture->Add(id, L"TileMap\\TilesetStage1.png", D3DCOLOR_XRGB(255, 0, 255));*/
+	//
+	this->id = id;
+	this->mappic = file_pic;
+	this->mapFilePath = filePath_data;
+
 	texture->Add(id, mappic, D3DCOLOR_XRGB(255, 0, 255));
 
 	LPDIRECT3DTEXTURE9 texTileMap = texture->Get(id);
@@ -68,42 +61,28 @@ void TileMap::LoadMap()
 		num_row = SCENE_1_ROW;//10;//6;
 		num_col = SCENE_1_COL;//24;
 		num_row_read = SCENE_1_ROW_READ;//4;
-		num_col_read = SCENE_1_COL_READ;//17; //8;
+		num_col_read = SCENE_1_COL_READ;//17; //8;	
 		break;
 	default:
 		break;
 	}
 
-	int id_sprite = 1;
+	int idsprite = 1;
 	for (UINT i = 0; i < num_row_read; i++)
 	{
 		for (UINT j = 0; j < num_col_read; j++)
 		{
-			//string idTile = "map_" + to_string(ID) + "_tile_" + to_string(id_sprite);
-			int id_SPRITE = id + id_sprite;
+			int id_SPRITE = id + idsprite;
 			sprites->Add(id_SPRITE, tile_width * j, tile_height * i, tile_width * (j + 1), tile_height * (i + 1), texTileMap);
-			id_sprite = id_sprite + 1;
+			idsprite = idsprite + 1;
 		}
 	}
 
-
-
-	//switch (id)
-	//{
-	//case 1000:
-	//	//mapFilePath = L"TileMap\\TilesetStage1Text.txt";
-	//	num_row = 6;
-	//	num_col = 24;
-	//	tile_height = tile_width = 64;
-	//	Load();
-	//	break;
-	//}
-	
+	Load();
 }
 
 void TileMap::Draw()
 {
-	//int rowscreen = SCREEN_HEIGHT / tile_height;
 
 	int firstcol = (int)CGame::GetInstance()->GetCamPosX() / tile_width;
 	int lastcol = firstcol + (SCREEN_WIDTH / tile_width) ;
@@ -127,16 +106,3 @@ TileMap::~TileMap()
 }
 
 
-TileMaps * TileMaps::_instance = NULL;
-
-void TileMaps::Add(int ID, LPCWSTR filePath_tex, LPCWSTR filePath_data, int tile_width, int tile_height)
-{
-	LPTILEMAP tilemap = new TileMap(ID, filePath_tex, filePath_data, tile_width, tile_height);
-	tilemaps[ID] = tilemap;
-}
-
-TileMaps * TileMaps::GetInstance()
-{
-	if (_instance == NULL) _instance = new TileMaps();
-	return _instance;
-}

@@ -41,14 +41,10 @@ void Whip::Render(int currentID)
 {
 	for (int i = 0; i < listHit.size(); i++)
 	{
-		/*if (listHit[i]->timedestroy() == false)
-			listHit[i]->Render();
-		else
-			listHit.clear();*/
+
 		listHit[i]->Render();
 	}
-	//listHit.clear();
-	
+
 	if (currentID >= 0)		
 	{
 		animation_set->at(state)->RenderWhip(currentID, nx, x, y);
@@ -92,7 +88,7 @@ void Whip::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 
 	t = y + 15;
-	b = t + 15;
+	b = t + whip_box_height;
 	if (nx < 0)
 	{
 		if (state == whip_lv3)
@@ -109,9 +105,9 @@ void Whip::GetBoundingBox(float &l, float &t, float &r, float &b)
 	}
 
 	if (state == whip_lv3)
-		r = l + 85;
+		r = l + whip_box_width_lv3;
 	else
-		r = l + 55;
+		r = l + whip_box_width_lv12;
 }
 
 

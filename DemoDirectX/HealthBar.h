@@ -4,6 +4,7 @@
 #define simon_heal 0
 #define lose_heal 1
 #define boss_heal 2
+#define healthbar_ani_set 9
 
 #define max_heal 16
 class HealthBar

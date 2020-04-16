@@ -19,12 +19,13 @@ class CPlayScene : public CScene
 protected:
 		
 	int idstage;
-	TileMaps *tilemaps = TileMaps::GetInstance();
+	
+	TileMap *tilemap;
 	Board *board;
 	
 	vector<LPGAMEOBJECT> objects;
-	vector<LPGAMEOBJECT> objectsstatic;
-	vector<LPGAMEOBJECT> allobject;
+	//vector<LPGAMEOBJECT> objectsstatic;
+	//vector<LPGAMEOBJECT> allobject;
 	vector<LPGAMEOBJECT> listitems;
 	//vector<LPHIT> listHit;
 

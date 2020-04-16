@@ -1,6 +1,9 @@
 #pragma once
 #include"GameObject.h"
 #include"Candle.h"
+
+#define weapon_knfie 0
+#define weapon_watch 1
 class SubWeapon :public CGameObject
 {
 public:

@@ -45,23 +45,6 @@ CPlayScene::CPlayScene() :	CScene()
 */
 
 
-
-void CPlayScene::SwitchScene(int idmap)
-{
-	switch (idmap)
-	{
-	case SCENE_1:
-		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
-		idstage = 1;
-		sceneObject = L"Scenes\\scene1.txt";
-		tilemaps->Add(SCENE_1, L"TileMap\\Scene1.png", L"TileMap\\Scene1_map.txt");	
-		LoadObject();
-		break;
-	default:
-		break;
-	}
-}
-
 void CPlayScene::LoadBaseObject()
 {
 	if (simon == NULL)
@@ -70,8 +53,30 @@ void CPlayScene::LoadBaseObject()
 
 		DebugOut(L"[INFO]SIMON CREATED \n");
 	}
-	board = new Board(simon->GetHealth(),16);
+	board = new Board(simon->GetHealth(), 16);
+	tilemap = new TileMap();
 }
+
+
+void CPlayScene::SwitchScene(int idmap)
+{
+	switch (idmap)
+	{
+	case SCENE_1:
+		
+		
+		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
+		idstage = 1;
+		sceneObject = L"Scenes\\scene1.txt";
+		
+		tilemap->LoadMap(SCENE_1, L"TileMap\\Scene1.png", L"TileMap\\Scene1_map.txt");
+		LoadObject();
+		break;
+	default:
+		break;
+	}
+}
+
 
 Items* CPlayScene::DropItem(float x, float y,int id)
 {
@@ -197,23 +202,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 	case OBJECT_TYPE_SIMON:
 	{
-		/*if (simon != NULL)
-		{
-			DebugOut(L"[ERROR]	SIMON object was created before! ");
-			return;
-		}*/
 
 		simon->SetPosition(x, y);
-		
-		//objects.push_back(simon);
+
 		break;
 	}
-	case OBJECT_TYPE_GROUND: 
+	case OBJECT_TYPE_GROUND:
 	{
 		obj = new Ground();
-		// General object setup
-		//obj->SetPosition(x, y);
-		
+
 		obj->SetPosition(x, y);
 		objects.push_back(obj);
 		break;
@@ -222,13 +219,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int id = atof(tokens[4].c_str());
 		obj = new Candle();
-		//obj->SetPosition(x, y);
-		/*LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-		obj->SetAnimationSet(ani_set);*/
-		obj->idItems = id;
-		allobject.push_back(obj);
-		objectsstatic.push_back(obj);
 
+		obj->idItems = id;
+		//allobject.push_back(obj);
+		//objectsstatic.push_back(obj);
+		objects.push_back(obj);
 
 		obj->SetPosition(x, y);
 		break;
@@ -236,6 +231,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
+		break;
 	}
 
 	// General object setup
@@ -364,13 +360,13 @@ void CPlayScene::Update(DWORD dt)
 	
 
 
-	for (UINT i = 0; i < allobject.size(); i++)
+	for (UINT i = 0; i < objects.size()/*allobject.size()*/; i++)
 	{
-		LPGAMEOBJECT obj = allobject[i];
-		//float x, y;
+		LPGAMEOBJECT obj = objects[i]/*allobject[i]*/;
+		
 		if (dynamic_cast<Candle*>(obj) && obj->GetState() == break_candle && !(obj->isDone)&&!(obj->isFire))
 		{
-			//listHit.push_back(CreateHit(obj->GetPositionX(), obj->GetPositionY()+10));
+			
 			if (obj->animation_set->at(break_candle)->RenderOver(time_render_fire))//để khi render xong lửa thì mới rới đồ
 			{
 				obj->isFire = true;
@@ -382,8 +378,8 @@ void CPlayScene::Update(DWORD dt)
 
 	simon->SimonColliWithItems(&listitems);
 
-	for (int i = 0; i < objectsstatic.size(); i++) //update cây nến ở đây để cho khi render xong lửa thì mới rớt đồ
-		objectsstatic[i]->Update(dt);
+	//for (int i = 0; i < objectsstatic.size(); i++) //update cây nến ở đây để cho khi render xong lửa thì mới rớt đồ
+		//objectsstatic[i]->Update(dt);
 
 
 	for (int i = 0; i < listitems.size(); i++)
@@ -396,6 +392,12 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	simon->Update(dt, &coObjects);
+
+
+	if (simon->GetState() == simon_ani_sit_hit)
+		simon->GetWhip()->SetPosWhip(D3DXVECTOR3(simon->GetPositionX(), simon->GetPositionY(), 0), false);//false là ngồi
+	else
+		simon->GetWhip()->SetPosWhip(D3DXVECTOR3(simon->GetPositionX(), simon->GetPositionY(), 0), true);//true là đứng
 
 	//for (int i = 0; i < coObjects.size(); i++)
 	{
@@ -413,13 +415,13 @@ void CPlayScene::Update(DWORD dt)
 					simon->GetKnife()->SetPosSubWeapon(D3DXVECTOR3(simon->GetPositionX(), simon->GetPositionY(), 0), true);
 			}
 			else
-				simon->GetWhip()->Update(dt, &objectsstatic);
+				simon->GetWhip()->Update(dt, &objects/*&objectsstatic*/);
 			
 		}
 	}
 
 	if(simon->currentWeapon!=-1&&!simon->GetKnife()->isDone) // khác -1 để ko bay ra phi tiêu // ko thể thêm đk đang đánh vũ khí phụ dc
-		simon->GetKnife()->Update(dt, &objectsstatic);
+		simon->GetKnife()->Update(dt, &objects/*&objectsstatic*/);
 		
 
 	
@@ -431,12 +433,7 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame *game = CGame::GetInstance();
 
-	//if simon->GetPositionX() + (SCREEN_WIDTH / 2) < 1536/* && simon->GetPositionX() > (SCREEN_WIDTH / 2))
-	/*if (simon->GetPositionX() >= 1536)
-	{
-		cx -= SCREEN_WIDTH / 2 - (1536 - simon->GetPositionX());
-	}*/
-	if (simon->GetPositionX() > (SCREEN_WIDTH/ 2)&& simon->GetPositionX() + (SCREEN_WIDTH / 2) < 1536)
+	if (simon->GetPositionX() > (SCREEN_WIDTH/ 2)&& simon->GetPositionX() + (SCREEN_WIDTH / 2) < tilemap->getwidthmap()/*1536*/)
 	{
 		cx = simon->GetPositionX() - (SCREEN_WIDTH / 2);
 		CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
@@ -451,21 +448,39 @@ void CPlayScene::Render()
 	
 	board->Render(idstage, CGame::GetInstance()->GetCamPosX(), 0, simon);
 
-	tilemaps->Get(2000)->Draw();
+	
+	tilemap->Draw();
 	
 
 
 	for (int i = 0; i < listitems.size(); i++)
 		listitems[i]->Render();
 
-	for (int i = 0; i < objectsstatic.size(); i++)
-		objectsstatic[i]->Render();
+	/*for (int i = 0; i < objectsstatic.size(); i++)
+		objectsstatic[i]->Render();*/
 
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 
 
 	simon->Render();
+
+	if (simon->Getnx() > 0)
+		simon->GetWhip()->SetNx(1);
+	else
+		simon->GetWhip()->SetNx(-1);
+
+	if ((simon->GetState() == simon_ani_stand_hit || simon->GetState() == simon_ani_sit_hit) && !simon->isHitSubWeapon || (simon->isHitSubWeapon&&simon->currentWeapon == -1))
+	{
+		simon->GetWhip()->Render(simon->animation_set->at(simon->GetState())->GetcurrentFrame());
+	}
+	else
+		simon->GetWhip()->Render(-1);
+
+	if (simon->currentWeapon != -1)
+	{
+		simon->GetKnife()->Render();
+	}
 
 	/*for (int i = 0; i < listHit.size(); i++)
 		listHit[i]->Render();*/
@@ -594,7 +609,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	Simon *simon = ((CPlayScene*)scence)->simon;
 
 	
-	if (simon->GetState() == simon_ani_stand_hit && simon->animation_set->at(simon_ani_stand_hit)->RenderOver(300))//để cho ko bị đánh 2 lần
+	if (simon->GetState() == simon_ani_stand_hit && simon->animation_set->at(simon_ani_stand_hit)->RenderOver(simon_delay_hit))//để cho ko bị đánh 2 lần
 	{
 		if (!(simon->isGrounded))
 			simon->SetState(simon_ani_jump);
@@ -607,10 +622,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 	
 	
-	if (simon->GetState() == simon_ani_led && !(simon->animation_set->at(simon_ani_led)->RenderOver(600)))
+	if (simon->GetState() == simon_ani_led && !(simon->animation_set->at(simon_ani_led)->RenderOver(simon_delay_led)))
 		return;
 
-	if ((simon->GetState() == simon_ani_stand_hit && !(simon->animation_set->at(simon_ani_stand_hit)->RenderOver(300))) || (simon->GetState() == simon_ani_sit_hit && !simon->animation_set->at(simon_ani_sit_hit)->RenderOver(300)))
+	if ((simon->GetState() == simon_ani_stand_hit && !(simon->animation_set->at(simon_ani_stand_hit)->RenderOver(simon_delay_hit))) || (simon->GetState() == simon_ani_sit_hit && !simon->animation_set->at(simon_ani_sit_hit)->RenderOver(simon_delay_hit)))
 	{	
 		return;
 	}

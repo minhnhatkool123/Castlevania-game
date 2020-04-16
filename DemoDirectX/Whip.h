@@ -7,6 +7,10 @@
 
 #define whip_ani_set 4
 
+#define whip_box_width_lv12 55
+#define whip_box_width_lv3 85
+#define whip_box_height 15
+
 class Whip :public CGameObject
 {
 	vector<LPHIT> listHit;

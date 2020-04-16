@@ -12,6 +12,10 @@
 #define SCENE_1_COL 48
 #define SCENE_1_ROW_READ 4
 #define SCENE_1_COL_READ 17
+#define TILE_WIDTH 32
+#define TILE_HEIGHT 32
+
+#define MAX_SCENE_LINE 1024
 
 
 class TileMap
@@ -19,7 +23,6 @@ class TileMap
 	CSprites * sprites = CSprites::GetInstance();
 	LPCWSTR mapFilePath;
 	LPCWSTR mappic;
-	//int map_width, map_height;
 	int num_row, num_col;
 	int tile_width, tile_height;
 	int id;
@@ -27,25 +30,13 @@ class TileMap
 	vector<vector<LPSPRITE>> tilemap;
 	
 public:
-	TileMap(int ID, LPCWSTR filePath_tex, LPCWSTR filePath_data, int tile_width = 32, int tile_height = 32);
+	TileMap();
 	~TileMap();
-
+	int getwidthmap() { return num_col*tile_width; }
+	int getid() { return id; }
 	void Load();
-	void LoadMap();
+	void LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data);
 	void Draw();
 };
 
-typedef TileMap *LPTILEMAP;
 
-class TileMaps
-{
-	static TileMaps * _instance;
-	unordered_map<int, LPTILEMAP> tilemaps;
-
-public:
-	void Add(int ID, LPCWSTR filePath_tex, LPCWSTR filePath_data, int tile_width = 32, int tile_height = 32);
-	LPTILEMAP Get(int ID) { return tilemaps[ID]; }
-
-
-	static TileMaps * GetInstance();
-};

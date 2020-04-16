@@ -93,7 +93,6 @@ void Knife::SetState(int State)
 	else
 		vx = -0.5;
 	vy = 0;
-	
 }
 
 void Knife::GetBoundingBox(float &left, float &top, float &right, float &bottom)
@@ -102,8 +101,8 @@ void Knife::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 	{
 		left = x;
 		top = y;
-		right = left + 34;
-		bottom = top + 18;
+		right = left + knife_box_width;
+		bottom = top + knife_box_height;
 	}
 
 }
@@ -118,7 +117,6 @@ bool Knife::CheckPosKnife(float a)
 {
 	if (vx > 0)
 	{
-		//if (x - a >= 200)//SCREEN_WIDTH / 2 )
 		if (x - a >= ((SCREEN_WIDTH/2) + 100))
 			return true;
 	}
