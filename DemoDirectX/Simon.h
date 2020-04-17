@@ -9,7 +9,7 @@
 #define simon_jump -0.5f
 #define simon_run 0.15f
 #define simon_gravity 0.0015f
-
+#define max_screen_left -11
 #define simon_ani_idle 0
 #define simon_ani_run  1
 #define simon_ani_jump 2

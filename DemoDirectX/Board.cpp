@@ -29,7 +29,7 @@ void Board::Update(DWORD a,int currenhealsimon,int currenthealboss)
 	healboss->Update(currenthealboss);
 
 	time += a;
-	timeremain = 300 - (time / CLOCKS_PER_SEC);
+	timeremain = 30000 - (time / CLOCKS_PER_SEC);
 }
 
 string Board::FillNumber(string s, UINT maxnumb)

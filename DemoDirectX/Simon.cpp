@@ -21,8 +21,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 	vy += simon_gravity * dt;
 
-	if (x < -11) //để cài không cho simon đi ngược màn hình
-		x = -11;
+	if (x < max_screen_left) //để cài không cho simon đi ngược màn hình
+		x = max_screen_left;
 
 	/*if(state==simon_ani_sit_hit)
 		whip->SetPosWhip(D3DXVECTOR3(this->x, this->y, 0), false);

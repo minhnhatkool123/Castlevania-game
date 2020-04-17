@@ -20,9 +20,9 @@
 
 class TileMap
 {
-	CSprites * sprites = CSprites::GetInstance();
+	CSprites * sprites; //= CSprites::GetInstance();
 	LPCWSTR mapFilePath;
-	LPCWSTR mappic;
+	//LPCWSTR mappic;
 	int num_row, num_col;
 	int tile_width, tile_height;
 	int id;

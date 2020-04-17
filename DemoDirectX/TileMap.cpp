@@ -2,6 +2,7 @@
 
 TileMap::TileMap()
 {
+	sprites = CSprites::GetInstance();
 	this->tile_width = TILE_WIDTH;
 	this->tile_height = TILE_HEIGHT;
 }
@@ -48,10 +49,10 @@ void TileMap::LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data)
 	CTextures * texture = CTextures::GetInstance();
 	//
 	this->id = id;
-	this->mappic = file_pic;
+	//this->mappic = file_pic;
 	this->mapFilePath = filePath_data;
 
-	texture->Add(id, mappic, D3DCOLOR_XRGB(255, 0, 255));
+	texture->Add(id, file_pic, D3DCOLOR_XRGB(255, 0, 255));
 
 	LPDIRECT3DTEXTURE9 texTileMap = texture->Get(id);
 	int num_row_read, num_col_read;
@@ -91,7 +92,7 @@ void TileMap::Draw()
 	{
 		for (UINT j = firstcol; j <= lastcol; j++)
 		{
-			float x = tile_width * (j - firstcol) + CGame::GetInstance()->GetCamPosX()- (int)(CGame::GetInstance()->GetCamPosX()) % tile_width;
+			float x = tile_width * (j - firstcol)+ CGame::GetInstance()->GetCamPosX()- (int)(CGame::GetInstance()->GetCamPosX()) % tile_width;
 			float y = tile_height * i + 80;
 
 			tilemap[i][j]->Draw(-1, x, y);

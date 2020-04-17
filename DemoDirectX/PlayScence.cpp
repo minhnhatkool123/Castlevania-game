@@ -494,10 +494,14 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-	//for (int i = 0; i < objects.size(); i++)
-	//	delete objects[i];
+	for (int i = 0; i < objects.size(); i++)
+		delete objects[i];
 
-	//objects.clear();
+	objects.clear();
+
+	for (int i = 0; i < listitems.size(); i++)
+		delete listitems[i];
+	listitems.clear();
 	//simon = NULL;
 }
 

@@ -53,7 +53,7 @@ void Whip::Render(int currentID)
 	
 
 	
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Whip::Render()
