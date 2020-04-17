@@ -90,6 +90,7 @@
     <ClCompile Include="Candle.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Gate.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Hit.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="Candle.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Gate.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="Hit.h" />

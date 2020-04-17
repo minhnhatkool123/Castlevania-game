@@ -17,6 +17,7 @@
 #define OBJECT_TYPE_SIMON	0
 #define OBJECT_TYPE_GROUND	1
 #define OBJECT_TYPE_CANDLE	2
+#define OBJECT_TYPE_GATE	3
 
 
 #define OBJECT_TYPE_PORTAL	50
@@ -29,9 +30,8 @@ using namespace std;
 CPlayScene::CPlayScene() :	CScene()
 {
 	key_handler = new CPlayScenceKeyHandler(this);
-	sceneFilePath = /*ToLPCWSTR("Scenes/Castlevania.txt");*/L"Scenes\\Castlevania.txt";
+	sceneFilePath = L"Scenes\\Castlevania.txt";
 	Load();//load ani sprites texture
-	
 	LoadBaseObject();
 	SwitchScene(SCENE_1);
 
@@ -62,14 +62,19 @@ void CPlayScene::SwitchScene(int idmap)
 {
 	switch (idmap)
 	{
-	case SCENE_1:
-		
-		
+	case SCENE_1:		
 		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 		idstage = 1;
 		sceneObject = L"Scenes\\scene1.txt";
 		
 		tilemap->LoadMap(SCENE_1, L"TileMap\\Scene1.png", L"TileMap\\Scene1_map.txt");
+		LoadObject();
+		break;
+	case SCENE_2:
+		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());	
+		idstage = 2;	
+		sceneObject = L"Scenes\\scene2.txt";
+		tilemap->LoadMap(SCENE_2, L"TileMap\\Scene2.png", L"TileMap\\Scene2_map.txt");
 		LoadObject();
 		break;
 	default:
@@ -223,11 +228,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj->idItems = id;
 		//allobject.push_back(obj);
 		//objectsstatic.push_back(obj);
-		objects.push_back(obj);
-
 		obj->SetPosition(x, y);
+		objects.push_back(obj);
 		break;
 	}
+	case OBJECT_TYPE_GATE:
+		obj = new Gate();
+		obj->SetPosition(x, y);
+		objects.push_back(obj);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -425,21 +434,35 @@ void CPlayScene::Update(DWORD dt)
 		
 
 	
-
-	
 	float cx, cy;
 	simon->GetPosition(cx, cy);
 
 
 	CGame *game = CGame::GetInstance();
 
-	if (simon->GetPositionX() > (SCREEN_WIDTH/ 2)&& simon->GetPositionX() + (SCREEN_WIDTH / 2) < tilemap->getwidthmap()/*1536*/)
+	if (simon->isChangeScene)
 	{
-		cx = simon->GetPositionX() - (SCREEN_WIDTH / 2);
-		CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
-		
+		SwitchScene(SCENE_2);
+		CGame::GetInstance()->SetCamPos(0.0f, 0.0f);
+		simon->isChangeScene = false;
+		Unload();	
 	}
-	//cy -= game->GetScreenHeight() / 2;
+
+
+	//if (tilemap->getid() == SCENE_1)
+	{
+		if (simon->GetPositionX() > (SCREEN_WIDTH / 2) && simon->GetPositionX() + (SCREEN_WIDTH / 2) < tilemap->getwidthmap()/*1536*/)
+		{
+			cx = simon->GetPositionX() - (SCREEN_WIDTH / 2);
+			CGame::GetInstance()->SetCamPos(cx, 0.0f );
+		}
+	}
+	
+
+
+
+
+
 	board->Update(dt, simon->GetHealth(), 16);
 }
 

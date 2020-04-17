@@ -1,6 +1,6 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Simon , 1 = Ground , 2 = Candle
+# type: 0 = Simon , 1 = Ground , 2 = Candle, 3=Gate
 # Simon
 0	1	300	1	
 
@@ -60,6 +60,8 @@
 2	800	304	3	1
 2	1000	304	3	1
 2	1200	304	3	2
+#Gate
+3	1400	267	
 
 
 

@@ -11,8 +11,8 @@
 #include "Knife.h"
 #include "Hit.h"
 #include "TileMap.h"
-
-#include"Board.h"
+#include "Gate.h"
+#include "Board.h"
 
 class CPlayScene : public CScene
 {

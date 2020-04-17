@@ -8,10 +8,16 @@
 #include <sstream>
 #include"Game.h"
 #define SCENE_1 2000
+#define SCENE_2 3000
 #define SCENE_1_ROW 10
 #define SCENE_1_COL 48
 #define SCENE_1_ROW_READ 4
 #define SCENE_1_COL_READ 17
+#define SCENE_2_ROW 12
+#define SCENE_2_COL 17
+#define SCENE_2_ROW_READ 4
+#define SCENE_2_COL_READ 7
+
 #define TILE_WIDTH 32
 #define TILE_HEIGHT 32
 

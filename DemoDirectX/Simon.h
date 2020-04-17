@@ -5,6 +5,7 @@
 #include "Items.h"
 #include "SubWeapon.h"
 #include "Knife.h"
+#include"Gate.h"
 
 #define simon_jump -0.5f
 #define simon_run 0.15f
@@ -42,6 +43,7 @@ class Simon :public CGameObject
 public:
 	bool isGrounded;
 	bool isHitSubWeapon;
+	bool isChangeScene;
 	int currentWeapon;
 	Simon();
 	~Simon();

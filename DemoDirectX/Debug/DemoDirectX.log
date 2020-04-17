@@ -1,52 +1,8 @@
-﻿  Board.cpp
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\gameobject.h(86): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\board.cpp(50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\board.cpp(59): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\board.cpp(62): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\board.cpp(63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\board.cpp(64): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\board.cpp(65): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\board.cpp(66): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Game.cpp
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\gameobject.h(86): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\knife.h(7): warning C4005: 'SCREEN_WIDTH': macro redefinition
-  d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\game.h(6): note: see previous definition of 'SCREEN_WIDTH'
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\game.cpp(300): warning C4305: '=': truncation from '__int64' to 'float'
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\game.cpp(301): warning C4305: '=': truncation from '__int64' to 'float'
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\game.cpp(311): warning C4305: '=': truncation from '__int64' to 'float'
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\game.cpp(312): warning C4305: '=': truncation from '__int64' to 'float'
-  PlayScence.cpp
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\gameobject.h(86): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\knife.h(7): warning C4005: 'SCREEN_WIDTH': macro redefinition
-  d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\game.h(6): note: see previous definition of 'SCREEN_WIDTH'
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(147): warning C4018: '<': signed/unsigned mismatch
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(169): warning C4018: '<': signed/unsigned mismatch
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(192): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(193): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(220): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(355): warning C4018: '<': signed/unsigned mismatch
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(385): warning C4018: '<': signed/unsigned mismatch
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(389): warning C4018: '<': signed/unsigned mismatch
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(449): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(456): warning C4018: '<': signed/unsigned mismatch
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(462): warning C4018: '<': signed/unsigned mismatch
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(497): warning C4018: '<': signed/unsigned mismatch
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\playscence.cpp(502): warning C4018: '<': signed/unsigned mismatch
-  SceneManager.cpp
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\scenemanager.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\gameobject.h(86): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\knife.h(7): warning C4005: 'SCREEN_WIDTH': macro redefinition
-  d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\game.h(6): note: see previous definition of 'SCREEN_WIDTH'
-  Simon.cpp
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\gameobject.h(86): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\simon.cpp(42): warning C4018: '<': signed/unsigned mismatch
-  main.cpp
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\gameobject.h(86): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\knife.h(7): warning C4005: 'SCREEN_WIDTH': macro redefinition
-  d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\game.h(6): note: see previous definition of 'SCREEN_WIDTH'
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\main.cpp(34): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\scenemanager.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\main.cpp(42): warning C4005: 'SCREEN_WIDTH': macro redefinition
-  d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\knife.h(7): note: see previous definition of 'SCREEN_WIDTH'
-  Generating Code...
+﻿  TileMap.cpp
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\tilemap.cpp(36): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\tilemap.cpp(87): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\tilemap.cpp(89): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\tilemap.cpp(106): warning C4018: '<': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\tilemap.cpp(108): warning C4018: '<=': signed/unsigned mismatch
+d:\vidudirectx\myframework\testdung\vidu4\2 - setup directx\directxgame\directxgame\demodirectx\tilemap.cpp(111): warning C4244: 'initializing': conversion from 'UINT' to 'float', possible loss of data
   DemoDirectX.vcxproj -> D:\vidudirectx\myframework\testdung\vidu4\2 - setup directX\DirectXGame\DirectXGame\Debug\DemoDirectX.exe

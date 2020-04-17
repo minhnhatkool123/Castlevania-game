@@ -5,13 +5,17 @@ TileMap::TileMap()
 	sprites = CSprites::GetInstance();
 	this->tile_width = TILE_WIDTH;
 	this->tile_height = TILE_HEIGHT;
+
 }
 void TileMap::Load()
 {
+	tilemap.clear();
+
 	DebugOut(L"[INFO] Start loading map resources from : %s \n", mapFilePath);
 
 	ifstream f;
 	f.open(mapFilePath);
+
 
 	if (f.fail())
 	{
@@ -49,6 +53,7 @@ void TileMap::LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data)
 	CTextures * texture = CTextures::GetInstance();
 	//
 	this->id = id;
+	DebugOut(L"[INFO] IDMAP\n", id);
 	//this->mappic = file_pic;
 	this->mapFilePath = filePath_data;
 
@@ -59,11 +64,21 @@ void TileMap::LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data)
 	switch (id)
 	{
 	case SCENE_1:
-		num_row = SCENE_1_ROW;//10;//6;
-		num_col = SCENE_1_COL;//24;
-		num_row_read = SCENE_1_ROW_READ;//4;
-		num_col_read = SCENE_1_COL_READ;//17; //8;	
+	{
+		num_row = SCENE_1_ROW;
+		num_col = SCENE_1_COL;
+		num_row_read = SCENE_1_ROW_READ;
+		num_col_read = SCENE_1_COL_READ;
 		break;
+	}
+	case SCENE_2:
+	{
+		num_row = SCENE_2_ROW;
+		num_col = SCENE_2_COL;
+		num_row_read = SCENE_2_ROW_READ;
+		num_col_read = SCENE_2_COL_READ;	
+		break;
+	}
 	default:
 		break;
 	}
@@ -75,7 +90,7 @@ void TileMap::LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data)
 		{
 			int id_SPRITE = id + idsprite;
 			sprites->Add(id_SPRITE, tile_width * j, tile_height * i, tile_width * (j + 1), tile_height * (i + 1), texTileMap);
-			idsprite = idsprite + 1;
+			idsprite++;
 		}
 	}
 

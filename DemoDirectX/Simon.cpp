@@ -84,7 +84,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				
 			}
-
+			else if (dynamic_cast<Gate*>(e->obj))
+			{
+				Gate *p = dynamic_cast<Gate*>(e->obj);
+				isChangeScene = true;
+			}
 		}
 	}
 	

@@ -1,0 +1,11 @@
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = Simon , 1 = Ground 
+# Simon
+0	1	0	1	
+
+
+
+
+
+
