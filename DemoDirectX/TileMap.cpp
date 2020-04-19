@@ -5,11 +5,11 @@ TileMap::TileMap()
 	sprites = CSprites::GetInstance();
 	this->tile_width = TILE_WIDTH;
 	this->tile_height = TILE_HEIGHT;
-
+	
 }
 void TileMap::Load()
 {
-	tilemap.clear();
+	//tilemap.clear();
 
 	DebugOut(L"[INFO] Start loading map resources from : %s \n", mapFilePath);
 
@@ -25,22 +25,12 @@ void TileMap::Load()
 	}
 
 
-
-	//vector<LPSPRITE> spriteline;
-	char str[MAX_SCENE_LINE];
-	while (f.getline(str, MAX_SCENE_LINE))
+	for (UINT i = 0; i < num_row; i++)
 	{
-		string line(str);
-		vector<LPSPRITE> spriteline;
-		vector<string> tokens = splitmap(line);
-		for (int i = 0; i < tokens.size(); i++)
+		for (UINT j = 0; j < num_col; j++)
 		{
-			int idsprite = id + atoi(tokens[i].c_str());
-			spriteline.push_back(sprites->Get(idsprite));
-
-
+			f >> tilemap[i][j];
 		}
-		tilemap.push_back(spriteline);
 	}
 	f.close();
 	
@@ -110,7 +100,9 @@ void TileMap::Draw()
 			float x = tile_width * (j - firstcol)+ CGame::GetInstance()->GetCamPosX()- (int)(CGame::GetInstance()->GetCamPosX()) % tile_width;
 			float y = tile_height * i + 80;
 
-			tilemap[i][j]->Draw(-1, x, y);
+
+			sprites->Get(tilemap[i][j] + id)->Draw(-1, x, y);		
+
 		}
 	}
 
