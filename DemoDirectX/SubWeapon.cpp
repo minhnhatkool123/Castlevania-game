@@ -7,9 +7,7 @@ SubWeapon::SubWeapon()
 
 void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
-	CGameObject::Update(dt);
-	
-	
+	//CGameObject::Update(dt);	
 }
 
 void SubWeapon::SetPosSubWeapon(D3DXVECTOR3 pos, bool isstanding)

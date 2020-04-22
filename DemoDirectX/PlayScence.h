@@ -17,8 +17,10 @@
 class CPlayScene : public CScene
 {
 protected:
-		
+	Simon *simon;
+
 	int idstage;
+	int current_scene;
 	
 	TileMap *tilemap;
 	Board *board;
@@ -29,17 +31,28 @@ protected:
 	vector<LPGAMEOBJECT> listitems;
 	//vector<LPHIT> listHit;
 
+
+
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
+	void _ParseSection_LINKMAP(string line);
+	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_OBJECTS(string line);
+
+	void _ParseSection_LINKOBJECTS(string line);
+	void _ParseSection_INFOMAP(string line);
+
+	vector<string> linkmap;
+
 public:
-	Simon *simon;
+	
 	CPlayScene(/*int id, LPCWSTR filePath*/);
 
 	virtual void Load();
 	virtual void LoadObject();
+	virtual void LoadMap(LPCWSTR map);
 	virtual void LoadBaseObject();
 	virtual void SwitchScene(int id);
 	virtual void Update(DWORD dt);

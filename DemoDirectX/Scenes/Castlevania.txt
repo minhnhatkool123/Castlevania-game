@@ -186,4 +186,11 @@
 8	92
 #Health
 9	93	94	95
+
+[SETTINGS]
+start	3
+[LINKMAP]
+Scenes\Map1full.txt
+Scenes\Map2full.txt
+Scenes\Map1full.txt
 	

@@ -7,8 +7,8 @@
 #include<string>
 #include <sstream>
 #include"Game.h"
-#define SCENE_1 2000
-#define SCENE_2 3000
+#define SCENE_1 1
+#define SCENE_2 2
 #define SCENE_1_ROW 10
 #define SCENE_1_COL 48
 #define SCENE_1_ROW_READ 4
@@ -42,7 +42,7 @@ public:
 	int getwidthmap() { return num_col*tile_width; }
 	int getid() { return id; }
 	void Load();
-	void LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data);
+	void LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data, int num_row, int num_col, int num_row_read, int num_col_read, int tile_width, int tile_height);
 	void Draw();
 };
 

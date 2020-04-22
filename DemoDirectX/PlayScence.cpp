@@ -13,6 +13,10 @@
 #define SCENE_SECTION_ANIMATIONS 4
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
+#define SCENE_SECTION_START	7
+#define SCENE_SECTION_LINKMAP	8
+#define SCENE_SECTION_SCENEOBJECT	9
+#define SCENE_SECTION_INFOMAP	10
 
 #define OBJECT_TYPE_SIMON	0
 #define OBJECT_TYPE_GROUND	1
@@ -33,10 +37,9 @@ CPlayScene::CPlayScene() :	CScene()
 	sceneFilePath = L"Scenes\\Castlevania.txt";
 	Load();//load ani sprites texture
 	LoadBaseObject();
-	SwitchScene(SCENE_1);
+	SwitchScene(current_scene);
 
 }
-
 
 
 /*
@@ -50,7 +53,6 @@ void CPlayScene::LoadBaseObject()
 	if (simon == NULL)
 	{
 		simon = new Simon();
-
 		DebugOut(L"[INFO]SIMON CREATED \n");
 	}
 	board = new Board(simon->GetHealth(), 16);
@@ -60,13 +62,13 @@ void CPlayScene::LoadBaseObject()
 
 void CPlayScene::SwitchScene(int idmap)
 {
-	switch (idmap)
+	/*switch (idmap)
 	{
 	case SCENE_1:		
 		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 		idstage = 1;
 		sceneObject = L"Scenes\\scene1.txt";
-		
+
 		tilemap->LoadMap(SCENE_1, L"TileMap\\Scene1.png", L"TileMap\\Scene1_map.txt");
 		LoadObject();
 		break;
@@ -79,7 +81,12 @@ void CPlayScene::SwitchScene(int idmap)
 		break;
 	default:
 		break;
-	}
+	}*/
+	Unload();
+	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
+	LPCWSTR a = ToLPCWSTR(linkmap[idmap - 1]);
+	LoadMap(a);
+	LoadObject();
 }
 
 
@@ -95,10 +102,64 @@ Items* CPlayScene::DropItem(float x, float y,int id)
 	return a;
 }
 
-//Hit* CPlayScene::CreateHit(float x, float y)
-//{
-//	return new Hit(x, y);
-//}
+void CPlayScene::_ParseSection_LINKOBJECTS(string line)
+{
+	vector<string> tokens = split(line);
+	if (tokens.size() < 1) return;
+
+	sceneObject= ToLPCWSTR(tokens[0]);
+}
+
+void CPlayScene::_ParseSection_INFOMAP(string line)
+{
+	vector<string> tokens = split(line);
+	if (tokens.size() < 10) return;
+	int IDmap = atoi(tokens[0].c_str());
+	wstring pathpic = ToWSTR(tokens[1]);
+	wstring pathtxt = ToWSTR(tokens[2]);
+	int num_row = atoi(tokens[3].c_str());
+	int num_col = atoi(tokens[4].c_str());
+	int num_row_read = atoi(tokens[5].c_str());
+	int num_col_read = atoi(tokens[6].c_str());
+	int tile_width = atoi(tokens[7].c_str());
+	int tile_height = atoi(tokens[8].c_str());
+	idstage = atoi(tokens[9].c_str());
+
+	tilemap->LoadMap(IDmap, pathpic.c_str(), pathtxt.c_str(), num_row, num_col, num_row_read, num_col_read, tile_width, tile_height);
+}
+
+void CPlayScene::_ParseSection_LINKMAP(string line)
+{
+	//vector<string> tokens = split(line);
+
+	//if (tokens.size() < 3) return;
+
+	//int IdMap = atoi(tokens[0].c_str());
+	//wstring pathpic = ToWSTR(tokens[1]);
+	//wstring pathtxt = ToWSTR(tokens[2]);
+	////idstage = atoi(tokens[4].c_str());
+	////sceneObject = ToLPCWSTR(tokens[5]);
+
+	//tilemap->LoadMap(IdMap, pathpic.c_str(), pathtxt.c_str());
+	vector<string> tokens = split(line);
+	if (tokens.size() < 1) return;
+
+	linkmap.push_back(tokens[0].c_str());
+}
+
+void CPlayScene::_ParseSection_SETTINGS(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return;
+	if (tokens[0] == "start")
+		current_scene = atoi(tokens[1].c_str());
+	else
+		DebugOut(L"[ERROR] Unknown game setting %s\n", ToWSTR(tokens[0]).c_str());
+}
+
+
+
 
 void CPlayScene::_ParseSection_TEXTURES(string line)
 {
@@ -199,7 +260,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
-	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
+	//CAnimationSets * animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject *obj = NULL;
 	
@@ -233,10 +294,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 	case OBJECT_TYPE_GATE:
+	{
 		obj = new Gate();
+		int NEXTMAP = atof(tokens[3].c_str());
+		current_scene = NEXTMAP;
 		obj->SetPosition(x, y);
 		objects.push_back(obj);
 		break;
+	}
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -246,6 +311,41 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	// General object setup
 	
 	/*obj->SetPosition(x, y);*/
+}
+
+void CPlayScene::LoadMap(LPCWSTR map)
+{
+
+	ifstream f;
+	f.open(map);
+
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;
+
+		if (line == "[SCENEOBJECT]") {
+			section = SCENE_SECTION_SCENEOBJECT; continue;
+		}
+		if (line == "[TILEMAP]") {
+			section = SCENE_SECTION_INFOMAP; continue;
+		}
+
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+
+		switch (section)
+		{
+		case SCENE_SECTION_SCENEOBJECT: _ParseSection_LINKOBJECTS(line); break;
+		case SCENE_SECTION_INFOMAP:_ParseSection_INFOMAP(line); break;
+		}
+	}
+	f.close();
+
 }
 
 void CPlayScene::LoadObject()
@@ -324,9 +424,12 @@ void CPlayScene::Load()
 		if (line == "[ANIMATION_SETS]") {
 			section = SCENE_SECTION_ANIMATION_SETS; continue;
 		}
-		/*if (line == "[OBJECTS]") {
-			section = SCENE_SECTION_OBJECTS; continue;
-		}*/
+		if (line == "[SETTINGS]") {
+			section = SCENE_SECTION_START; continue;
+		}
+		if (line == "[LINKMAP]") {
+			section = SCENE_SECTION_LINKMAP; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -338,7 +441,8 @@ void CPlayScene::Load()
 		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
-		//case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_START: _ParseSection_SETTINGS(line); break;
+		case SCENE_SECTION_LINKMAP:  _ParseSection_LINKMAP(line); break;
 		}
 	}
 
@@ -361,7 +465,7 @@ void CPlayScene::Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects;
 	
 
-	for (int i = 1; i < objects.size(); i++)
+	for (int i = 0; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
 	}
@@ -430,7 +534,7 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	if(simon->currentWeapon!=-1&&!simon->GetKnife()->isDone) // khác -1 để ko bay ra phi tiêu // ko thể thêm đk đang đánh vũ khí phụ dc
-		simon->GetKnife()->Update(dt, &objects/*&objectsstatic*/);
+		simon->GetKnife()->Update(dt,&objects/*&objectsstatic*/);
 		
 
 	
@@ -442,10 +546,10 @@ void CPlayScene::Update(DWORD dt)
 
 	if (simon->isChangeScene)
 	{
-		SwitchScene(SCENE_2);
+		
+		SwitchScene(current_scene);
 		CGame::GetInstance()->SetCamPos(0.0f, 0.0f);
-		simon->isChangeScene = false;
-		Unload();	
+		simon->isChangeScene = false;	
 	}
 
 

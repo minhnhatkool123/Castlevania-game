@@ -212,6 +212,7 @@ void CGame::ProcessKeyboard()
 	}
 
 	// Scan through all buffered events, check if the key is pressed or released
+
 	for (DWORD i = 0; i < dwElements; i++)
 	{
 		int KeyCode = keyEvents[i].dwOfs;
@@ -221,6 +222,7 @@ void CGame::ProcessKeyboard()
 		else
 			keyHandler->OnKeyUp(KeyCode);
 	}
+
 }
 
 CGame::~CGame()
@@ -346,7 +348,6 @@ void CGame::SweptAABB(
 		nx = 0.0f;
 		dy > 0 ? ny = -1.0f : ny = 1.0f;
 	}
-
 }
 
 CGame *CGame::GetInstance()

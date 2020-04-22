@@ -37,8 +37,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	vector<LPGAMEOBJECT> COOBJECTS;
 	COOBJECTS.clear();
-	//LPGAMEOBJECT a;
-	//dynamic_cast<Candle*>(a);
+
+
 	for (int i = 0; i < coObjects->size(); i++)
 	{	
 		if (coObjects->at(i)!= dynamic_cast<Candle*>(coObjects->at(i)))

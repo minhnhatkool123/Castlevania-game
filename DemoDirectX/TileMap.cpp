@@ -9,7 +9,7 @@ TileMap::TileMap()
 }
 void TileMap::Load()
 {
-	//tilemap.clear();
+	
 
 	DebugOut(L"[INFO] Start loading map resources from : %s \n", mapFilePath);
 
@@ -38,7 +38,7 @@ void TileMap::Load()
 	DebugOut(L"[INFO] Done loading map resources %s\n", mapFilePath);
 }
 
-void TileMap::LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data)
+void TileMap::LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data,int num_row,int num_col,int num_row_read,int num_col_read,int tile_width,int tile_height)
 {
 	CTextures * texture = CTextures::GetInstance();
 	//
@@ -46,11 +46,15 @@ void TileMap::LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data)
 	DebugOut(L"[INFO] IDMAP\n", id);
 	//this->mappic = file_pic;
 	this->mapFilePath = filePath_data;
+	this->num_row = num_row;
+	this->num_col = num_col;
+	this->tile_width = tile_width;
+	this->tile_height = tile_height;
 
 	texture->Add(id, file_pic, D3DCOLOR_XRGB(255, 0, 255));
 
 	LPDIRECT3DTEXTURE9 texTileMap = texture->Get(id);
-	int num_row_read, num_col_read;
+	/*int num_row_read, num_col_read;
 	switch (id)
 	{
 	case SCENE_1:
@@ -71,7 +75,7 @@ void TileMap::LoadMap(int id, LPCWSTR file_pic, LPCWSTR filePath_data)
 	}
 	default:
 		break;
-	}
+	}*/
 
 	int idsprite = 1;
 	for (UINT i = 0; i < num_row_read; i++)

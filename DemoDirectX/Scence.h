@@ -7,10 +7,10 @@ class CScene
 {
 protected:
 	CKeyEventHandler * key_handler;
-	int id;
+	//int id;
 	LPCWSTR sceneFilePath;
 	LPCWSTR sceneObject;
-
+	
 public:
 	CScene(/*int id, LPCWSTR filePath*/);
 

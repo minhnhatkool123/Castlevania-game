@@ -5,11 +5,13 @@
 
 class Gate:public CGameObject
 {
+	//int nextmap;
 public:
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
 	void Render();
 
+	//int getnextmap() { return nextmap; }
 	void GetBoundingBox(float &l, float &t, float &r, float &b);
 	Gate();
 	~Gate();

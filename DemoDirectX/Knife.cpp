@@ -7,9 +7,9 @@ Knife::Knife()
 	SetAnimationSet(CAnimationSets::GetInstance()->Get(knife_ani_set));
 }
 
-void Knife::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
+void Knife::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	
+	CGameObject::Update(dt);
 	if (CheckPosKnife(POSX))
 	{
 		isDone = true;
@@ -17,13 +17,27 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	}
 	
 
-	SubWeapon::Update(dt, colliable_objects);
+	//SubWeapon::Update(dt);
+	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
 
-	CalcPotentialCollisions(colliable_objects, coEvents);
+	vector<LPGAMEOBJECT> COOBJECTS;
+	COOBJECTS.clear();
+	//LPGAMEOBJECT a;
+	//dynamic_cast<Candle*>(a);
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i) != dynamic_cast<Gate*>(coObjects->at(i))&& coObjects->at(i) != dynamic_cast<Ground*>(coObjects->at(i)))
+		{
+			COOBJECTS.push_back(coObjects->at(i));
+		}
+	}
+
+
+	CalcPotentialCollisions(&COOBJECTS, coEvents);
 	
 	
 
@@ -39,8 +53,8 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		x += min_tx * dx + nx * 0.1f;		
-		y += min_ty * dy + ny * 0.1f;
+		x += min_tx * dx + nx * 0.4f;		
+		y += min_ty * dy + ny * 0.4f;
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
@@ -64,6 +78,10 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 		}
 	}	
+
+	for (UINT i = 0; i < coEvents.size(); i++)
+		delete coEvents[i];
+
 }
 
 Hit* Knife::CreateHit(float x, float y)
